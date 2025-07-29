@@ -60,6 +60,8 @@ body.loaded {
   transition: width 0.3s ease;
   border-radius: 3px;
   box-shadow: 0 0 10px rgba(235, 125, 160, 0.3);
+  min-width: 0%;
+  display: block;
 }
 
 .loading-text {

@@ -103,9 +103,20 @@ const totalImages = imagesToPreload.length;
 const progressBar = document.querySelector(".loading-progress-bar");
 const loadingScreen = document.querySelector(".loading-screen");
 
+// Debug: Check if elements are found
+console.log("Progress bar found:", progressBar);
+console.log("Loading screen found:", loadingScreen);
+
 function updateProgress() {
   const percentage = (loadedImages / totalImages) * 100;
-  progressBar.style.width = percentage + "%";
+  if (progressBar) {
+    progressBar.style.width = percentage + "%";
+    console.log(
+      `Progress: ${loadedImages}/${totalImages} (${percentage}%) - Width set to: ${percentage}%`
+    );
+  } else {
+    console.log("Progress bar element not found!");
+  }
 }
 
 function imageLoaded() {
@@ -128,6 +139,12 @@ function imageLoaded() {
 
 function preloadImages() {
   updateProgress();
+
+  // Ensure progress bar is visible
+  if (progressBar) {
+    progressBar.style.width = "0%";
+    progressBar.style.display = "block";
+  }
 
   imagesToPreload.forEach((src) => {
     const img = new Image();
