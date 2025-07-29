@@ -15,16 +15,15 @@ body {
   z-index: 1;
 }
 
-/* Hide main content initially, show loading screen */
-main,
 header,
+main,
 footer {
   opacity: 0;
   transition: opacity 0.8s ease;
 }
 
-body.loaded main,
 body.loaded header,
+body.loaded main,
 body.loaded footer {
   opacity: 1;
 }
