@@ -68,32 +68,6 @@ body.loaded footer {
   width: 0%;
   transition: width 0.3s ease;
   box-shadow: 0 0 20px rgba(235, 125, 160, 0.3);
-  position: relative;
-}
-
-.loading-progress-bar::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.3) 50%,
-    transparent 100%
-  );
-  animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
 }
 
 .loading-text {
