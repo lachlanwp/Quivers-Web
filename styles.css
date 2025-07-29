@@ -435,6 +435,58 @@ body::before {
   flex-wrap: wrap;
 }
 
+/* Album Cover Styling */
+.album-cover {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.album-cover-img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 6%;
+  box-shadow: 0 0 0 8px #1a1a1a, 0 0 0 12px #333333, 0 0 0 16px #1a1a1a,
+    0 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+}
+
+.album-cover-img:hover {
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 0 0 8px #1a1a1a, 0 0 0 12px #333333, 0 0 0 16px #1a1a1a,
+    0 25px 50px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.album-cover-img::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: #1a1a1a;
+  border-radius: 50%;
+  border: 2px solid #333333;
+  z-index: 1;
+}
+
+.album-cover-img::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: #eb7da0;
+  border-radius: 50%;
+  z-index: 2;
+}
+
 /* Featured Quotes Section */
 .featured-quotes {
   padding: 80px 0;
@@ -841,6 +893,11 @@ footer {
     font-size: 2rem;
   }
 
+  .album-cover-img {
+    width: 250px;
+    height: 250px;
+  }
+
   .quotes-grid {
     grid-template-columns: 1fr;
   }
@@ -883,6 +940,11 @@ footer {
   .btn {
     padding: 10px 20px;
     font-size: 0.9rem;
+  }
+
+  .album-cover-img {
+    width: 200px;
+    height: 200px;
   }
 
   .release-info h3 {

@@ -94,6 +94,7 @@ const imagesToPreload = [
   "images/band-logo.png",
   "images/band-photo.jpg",
   "images/band-photo-2.jpg",
+  "images/oyster-cuts-album-cover.jpg",
   "images/fish.png",
   "images/oyster.png",
 ];
