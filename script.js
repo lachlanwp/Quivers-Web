@@ -89,88 +89,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Preload functionality
-const loadingScreen = document.querySelector(".loading-screen");
-const progressBar = document.querySelector(".loading-progress-bar");
-const loadingText = document.querySelector(".loading-text");
-
-// List of all assets to preload
-const assetsToPreload = [
-  "images/band-logo.png",
-  "images/band-photo.jpg",
-  "images/band-photo-2.jpg",
-  "images/fish.png",
-  "images/oyster.png",
-];
-
-let loadedAssets = 0;
-const totalAssets = assetsToPreload.length + 2; // +2 for CSS and JS which are already loaded
-
-function updateProgress() {
-  const progress = (loadedAssets / totalAssets) * 100;
-  progressBar.style.width = progress + "%";
-
-  if (loadedAssets === totalAssets) {
-    // All assets loaded, fade in the site
-    setTimeout(() => {
-      document.body.classList.add("loaded");
-      loadingScreen.classList.add("hidden");
-      setTimeout(() => {
-        loadingScreen.style.display = "none";
-      }, 500);
-    }, 500);
-  }
-}
-
-function preloadAsset(src) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => {
-      loadedAssets++;
-      updateProgress();
-      resolve();
-    };
-    img.onerror = () => {
-      loadedAssets++;
-      updateProgress();
-      resolve();
-    };
-    img.src = src;
-  });
-}
-
-// Start preloading when DOM is ready
+// Simple loading screen removal
 document.addEventListener("DOMContentLoaded", () => {
-  // Preload all assets
-  Promise.all(assetsToPreload.map(preloadAsset)).then(() => {
-    console.log("All assets preloaded successfully");
-  });
-
-  // Update progress for already loaded assets
-  loadedAssets = 2; // CSS and JS are already loaded
-  updateProgress();
-
-  // If all assets are already loaded (like in development), show the site immediately
-  if (loadedAssets >= totalAssets) {
-    setTimeout(() => {
-      document.body.classList.add("loaded");
-      loadingScreen.classList.add("hidden");
-      setTimeout(() => {
-        loadingScreen.style.display = "none";
-      }, 500);
-    }, 100);
-  }
-
-  // Fallback: if loading takes too long, show the site anyway
+  // Hide loading screen and show site immediately
   setTimeout(() => {
-    if (!document.body.classList.contains("loaded")) {
-      document.body.classList.add("loaded");
+    document.body.classList.add("loaded");
+    const loadingScreen = document.querySelector(".loading-screen");
+    if (loadingScreen) {
       loadingScreen.classList.add("hidden");
       setTimeout(() => {
         loadingScreen.style.display = "none";
       }, 500);
     }
-  }, 3000); // 3 second fallback
+  }, 100);
 });
 
 // Form validation for contact form (if added later)
