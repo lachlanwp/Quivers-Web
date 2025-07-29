@@ -15,19 +15,6 @@ body {
   z-index: 1;
 }
 
-header,
-main,
-footer {
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-body.loaded header,
-body.loaded main,
-body.loaded footer {
-  opacity: 1;
-}
-
 /* Loading Screen */
 .loading-screen {
   position: fixed;
@@ -62,11 +49,11 @@ body.loaded footer {
 
 .loading-progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #eb7da0 0%, #ff9bb3 50%, #eb7da0 100%);
+  background: linear-gradient(90deg, #ff4ecd 0%, #a259ff 100%);
   border-radius: 3px;
   width: 0%;
   transition: width 0.3s ease;
-  box-shadow: 0 0 20px rgba(235, 125, 160, 0.3);
+  box-shadow: 0 0 20px rgba(162, 89, 255, 0.3);
 }
 
 .loading-text {
@@ -109,6 +96,7 @@ body::before {
   z-index: 1000;
   padding: 1rem 0;
   border-bottom: 1px solid rgba(235, 125, 160, 0.2);
+  will-change: opacity;
 }
 
 .nav-container {
