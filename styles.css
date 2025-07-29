@@ -21,6 +21,12 @@ body.loaded {
   opacity: 1;
 }
 
+/* Ensure loading screen is always visible regardless of body opacity */
+.loading-screen {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 /* Loading Screen */
 .loading-screen {
   position: fixed;
@@ -37,6 +43,8 @@ body.loaded {
   transition: opacity 0.5s ease;
   opacity: 1;
   pointer-events: auto;
+  /* Debug: Make sure it's visible */
+  border: 2px solid red;
 }
 
 .loading-screen.hidden {
