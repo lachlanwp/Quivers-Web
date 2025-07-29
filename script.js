@@ -106,6 +106,14 @@ const loadingScreen = document.querySelector(".loading-screen");
 // Debug: Check if elements are found
 console.log("Progress bar found:", progressBar);
 console.log("Loading screen found:", loadingScreen);
+console.log(
+  "Loading screen display:",
+  loadingScreen ? loadingScreen.style.display : "not found"
+);
+console.log(
+  "Loading screen opacity:",
+  loadingScreen ? loadingScreen.style.opacity : "not found"
+);
 
 function updateProgress() {
   const percentage = (loadedImages / totalImages) * 100;
