@@ -89,19 +89,72 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Simple loading screen removal
+// Image preloading system
+const loadingScreen = document.querySelector(".loading-screen");
+const progressBar = document.querySelector(".loading-progress-bar");
+
+// List of all images to preload
+const imagesToPreload = [
+  "images/band-logo.png",
+  "images/band-photo.jpg",
+  "images/band-photo-2.jpg",
+  "images/fish.png",
+  "images/oyster.png",
+];
+
+let loadedImages = 0;
+const totalImages = imagesToPreload.length;
+
+function updateProgress() {
+  const progress = (loadedImages / totalImages) * 100;
+  progressBar.style.width = progress + "%";
+
+  if (loadedImages === totalImages) {
+    // All images loaded, fade in the site
+    setTimeout(() => {
+      document.body.classList.add("loaded");
+      loadingScreen.classList.add("hidden");
+      setTimeout(() => {
+        loadingScreen.style.display = "none";
+      }, 500);
+    }, 300);
+  }
+}
+
+function preloadImage(src) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      loadedImages++;
+      updateProgress();
+      resolve();
+    };
+    img.onerror = () => {
+      loadedImages++;
+      updateProgress();
+      resolve();
+    };
+    img.src = src;
+  });
+}
+
+// Start preloading when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
-  // Hide loading screen and show site immediately
+  // Preload all images
+  Promise.all(imagesToPreload.map(preloadImage)).then(() => {
+    console.log("All images preloaded successfully");
+  });
+
+  // Fallback: if loading takes too long, show the site anyway
   setTimeout(() => {
-    document.body.classList.add("loaded");
-    const loadingScreen = document.querySelector(".loading-screen");
-    if (loadingScreen) {
+    if (!document.body.classList.contains("loaded")) {
+      document.body.classList.add("loaded");
       loadingScreen.classList.add("hidden");
       setTimeout(() => {
         loadingScreen.style.display = "none";
       }, 500);
     }
-  }, 100);
+  }, 5000); // 5 second fallback
 });
 
 // Form validation for contact form (if added later)
