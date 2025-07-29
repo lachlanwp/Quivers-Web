@@ -102,18 +102,30 @@ let loadedImages = 0;
 const totalImages = imagesToPreload.length;
 const progressBar = document.getElementById("progress-bar");
 const loadingScreen = document.querySelector(".loading-screen");
+const loadingProgress = document.querySelector(".loading-progress");
 
 // Debug: Check if elements are found
 console.log("Progress bar found:", progressBar);
 console.log("Loading screen found:", loadingScreen);
 
+let progressBarShown = false;
+let allImagesLoaded = false;
+
+function showProgressBar() {
+  if (!progressBarShown && !allImagesLoaded) {
+    progressBarShown = true;
+    if (loadingProgress) {
+      loadingProgress.style.opacity = "1";
+      console.log("Progress bar now visible");
+    }
+  }
+}
+
 function updateProgress() {
   const percentage = (loadedImages / totalImages) * 100;
-  if (progressBar) {
+  if (progressBar && progressBarShown) {
     progressBar.style.width = percentage + "%";
     console.log(`Progress: ${percentage}%`);
-  } else {
-    console.log("Progress bar element not found!");
   }
 }
 
@@ -122,6 +134,7 @@ function imageLoaded() {
   updateProgress();
 
   if (loadedImages >= totalImages) {
+    allImagesLoaded = true;
     // All images loaded, fade in the site
     setTimeout(() => {
       document.body.classList.add("loaded");
@@ -136,13 +149,34 @@ function imageLoaded() {
 }
 
 function preloadImages() {
-  updateProgress();
+  // Hide progress bar initially
+  if (loadingProgress) {
+    loadingProgress.style.opacity = "0";
+    loadingProgress.style.transition = "opacity 0.3s ease";
+  }
+
+  // Show progress bar after 1 second if images are still loading
+  const showProgressTimeout = setTimeout(() => {
+    showProgressBar();
+  }, 1000);
 
   imagesToPreload.forEach((src) => {
     const img = new Image();
 
-    img.onload = imageLoaded;
-    img.onerror = imageLoaded; // Count errors as loaded to ensure completion
+    img.onload = () => {
+      imageLoaded();
+      // If all images loaded before 1 second, clear the timeout
+      if (loadedImages >= totalImages) {
+        clearTimeout(showProgressTimeout);
+      }
+    };
+    img.onerror = () => {
+      imageLoaded();
+      // If all images loaded before 1 second, clear the timeout
+      if (loadedImages >= totalImages) {
+        clearTimeout(showProgressTimeout);
+      }
+    };
 
     img.src = src;
   });
