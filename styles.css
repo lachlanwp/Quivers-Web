@@ -12,19 +12,21 @@ body {
   background-color: #0a0a0a;
   overflow-x: hidden;
   position: relative;
-  opacity: 0;
-  transition: opacity 0.8s ease;
   z-index: 1;
 }
 
-body.loaded {
-  opacity: 1;
+/* Hide main content initially, show loading screen */
+main,
+header,
+footer {
+  opacity: 0;
+  transition: opacity 0.8s ease;
 }
 
-/* Ensure loading screen is always visible regardless of body opacity */
-.loading-screen {
-  opacity: 1 !important;
-  visibility: visible !important;
+body.loaded main,
+body.loaded header,
+body.loaded footer {
+  opacity: 1;
 }
 
 /* Loading Screen */
@@ -43,8 +45,6 @@ body.loaded {
   transition: opacity 0.5s ease;
   opacity: 1;
   pointer-events: auto;
-  /* Debug: Make sure it's visible */
-  border: 2px solid red;
 }
 
 .loading-screen.hidden {
@@ -63,10 +63,37 @@ body.loaded {
 
 .loading-progress-bar {
   height: 100%;
-  background-color: #ff6b6b;
+  background: linear-gradient(90deg, #eb7da0 0%, #ff9bb3 50%, #eb7da0 100%);
   border-radius: 3px;
   width: 0%;
   transition: width 0.3s ease;
+  box-shadow: 0 0 20px rgba(235, 125, 160, 0.3);
+  position: relative;
+}
+
+.loading-progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .loading-text {
