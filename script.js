@@ -101,12 +101,10 @@ const assetsToPreload = [
   "images/band-photo-2.jpg",
   "images/fish.png",
   "images/oyster.png",
-  "styles.css",
-  "script.js",
 ];
 
 let loadedAssets = 0;
-const totalAssets = assetsToPreload.length;
+const totalAssets = assetsToPreload.length + 2; // +2 for CSS and JS which are already loaded
 
 function updateProgress() {
   const progress = (loadedAssets / totalAssets) * 100;
@@ -126,23 +124,18 @@ function updateProgress() {
 
 function preloadAsset(src) {
   return new Promise((resolve) => {
-    if (src.endsWith(".css") || src.endsWith(".js")) {
-      // CSS and JS are already loaded
+    const img = new Image();
+    img.onload = () => {
+      loadedAssets++;
+      updateProgress();
       resolve();
-    } else {
-      const img = new Image();
-      img.onload = () => {
-        loadedAssets++;
-        updateProgress();
-        resolve();
-      };
-      img.onerror = () => {
-        loadedAssets++;
-        updateProgress();
-        resolve();
-      };
-      img.src = src;
-    }
+    };
+    img.onerror = () => {
+      loadedAssets++;
+      updateProgress();
+      resolve();
+    };
+    img.src = src;
   });
 }
 
@@ -156,6 +149,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // Update progress for already loaded assets
   loadedAssets = 2; // CSS and JS are already loaded
   updateProgress();
+
+  // If all assets are already loaded (like in development), show the site immediately
+  if (loadedAssets >= totalAssets) {
+    setTimeout(() => {
+      document.body.classList.add("loaded");
+      loadingScreen.classList.add("hidden");
+      setTimeout(() => {
+        loadingScreen.style.display = "none";
+      }, 500);
+    }, 100);
+  }
+
+  // Fallback: if loading takes too long, show the site anyway
+  setTimeout(() => {
+    if (!document.body.classList.contains("loaded")) {
+      document.body.classList.add("loaded");
+      loadingScreen.classList.add("hidden");
+      setTimeout(() => {
+        loadingScreen.style.display = "none";
+      }, 500);
+    }
+  }, 3000); // 3 second fallback
 });
 
 // Form validation for contact form (if added later)
