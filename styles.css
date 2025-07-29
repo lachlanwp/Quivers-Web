@@ -45,36 +45,64 @@ body.loaded {
 }
 
 .loading-progress {
-  width: 300px;
-  height: 12px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
+  width: 400px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
   overflow: hidden;
-  margin-bottom: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  margin-bottom: 24px;
   position: relative;
   z-index: 1;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .loading-progress-bar {
   height: 100%;
-  background: #eb7da0;
+  background: linear-gradient(90deg, #eb7da0 0%, #ff9bb3 50%, #eb7da0 100%);
   width: 0%;
-  transition: width 0.3s ease;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease;
   border-radius: 4px;
   min-width: 0%;
   display: block;
   position: relative;
   z-index: 2;
+  box-shadow: 0 0 20px rgba(235, 125, 160, 0.3);
+}
+
+.loading-progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .loading-text {
   color: #ffffff;
-  font-size: 1.4rem;
-  font-weight: 500;
+  font-size: 1.2rem;
+  font-weight: 400;
   text-align: center;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.3px;
+  opacity: 0.9;
 }
 
 body::before {

@@ -119,6 +119,13 @@ function updateProgress() {
   const percentage = (loadedImages / totalImages) * 100;
   if (progressBar) {
     progressBar.style.width = percentage + "%";
+
+    // Add a subtle pulse effect when progress updates
+    progressBar.style.transform = "scale(1.02)";
+    setTimeout(() => {
+      progressBar.style.transform = "scale(1)";
+    }, 200);
+
     console.log(
       `Progress: ${loadedImages}/${totalImages} (${percentage}%) - Width set to: ${percentage}%`
     );
