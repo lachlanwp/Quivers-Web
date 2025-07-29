@@ -136,5 +136,4 @@ Quivers/
 - **Design**: Modern, responsive web design with "style smart" aesthetic
 - **Content**: Based on official band information
 - **Background**: Nature-themed textures reflecting band's love of nature
-
-© 2021-2025 by QUIVERS/PINK LAKE RECORDS.
+- **Site master**: Lachlan Pearce, www.lachlanpearce.com
