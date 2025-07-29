@@ -90,10 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Image preloading system
-const loadingScreen = document.querySelector(".loading-screen");
-const progressBar = document.querySelector(".loading-progress-bar");
-
-// List of all images to preload
 const imagesToPreload = [
   "images/band-logo.png",
   "images/band-photo.jpg",
@@ -104,58 +100,51 @@ const imagesToPreload = [
 
 let loadedImages = 0;
 const totalImages = imagesToPreload.length;
+const progressBar = document.querySelector(".loading-progress-bar");
+const loadingScreen = document.querySelector(".loading-screen");
 
 function updateProgress() {
-  const progress = (loadedImages / totalImages) * 100;
-  progressBar.style.width = progress + "%";
+  const percentage = (loadedImages / totalImages) * 100;
+  progressBar.style.width = percentage + "%";
+}
 
-  if (loadedImages === totalImages) {
+function imageLoaded() {
+  loadedImages++;
+  updateProgress();
+
+  if (loadedImages >= totalImages) {
     // All images loaded, fade in the site
     setTimeout(() => {
       document.body.classList.add("loaded");
       loadingScreen.classList.add("hidden");
+
+      // Remove loading screen after fade out
       setTimeout(() => {
         loadingScreen.style.display = "none";
       }, 500);
-    }, 300);
+    }, 500); // Small delay for smooth transition
   }
 }
 
-function preloadImage(src) {
-  return new Promise((resolve) => {
+function preloadImages() {
+  updateProgress();
+
+  imagesToPreload.forEach((src) => {
     const img = new Image();
-    img.onload = () => {
-      loadedImages++;
-      updateProgress();
-      resolve();
-    };
-    img.onerror = () => {
-      loadedImages++;
-      updateProgress();
-      resolve();
-    };
+
+    img.onload = imageLoaded;
+    img.onerror = imageLoaded; // Count errors as loaded to ensure completion
+
     img.src = src;
   });
 }
 
 // Start preloading when DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
-  // Preload all images
-  Promise.all(imagesToPreload.map(preloadImage)).then(() => {
-    console.log("All images preloaded successfully");
-  });
-
-  // Fallback: if loading takes too long, show the site anyway
-  setTimeout(() => {
-    if (!document.body.classList.contains("loaded")) {
-      document.body.classList.add("loaded");
-      loadingScreen.classList.add("hidden");
-      setTimeout(() => {
-        loadingScreen.style.display = "none";
-      }, 500);
-    }
-  }, 5000); // 5 second fallback
-});
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", preloadImages);
+} else {
+  preloadImages();
+}
 
 // Form validation for contact form (if added later)
 function validateForm(form) {
