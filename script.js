@@ -86,6 +86,19 @@ window.addEventListener("scroll", () => {
   }
 });
 
+// Parallax effect for background images
+window.addEventListener("scroll", () => {
+  const scrolled = window.pageYOffset;
+  const body = document.body;
+  
+  // Apply parallax effect to the background image
+  // Move the background at 50% of the scroll speed for a subtle effect
+  const parallaxRate = scrolled * 0.5;
+  
+  // Use CSS custom property for smooth performance
+  body.style.setProperty('--parallax-y', `${parallaxRate}px`);
+});
+
 // Fade in animation for elements
 const observerOptions = {
   threshold: 0.1,
