@@ -250,28 +250,44 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightbox-img");
 const lightboxClose = document.querySelector(".lightbox-close");
 
-// Open lightbox function with fade-in effect
+// Open lightbox function with proper image loading and fade effects
 function openLightbox(imageSrc) {
-  // First time opening - clear any previous image and set new one
-  lightboxImg.src = "";
+  // Ensure the lightbox is hidden and image is transparent initially
+  lightbox.style.display = "block";
+  lightbox.style.opacity = "0";
   lightboxImg.style.opacity = "0";
 
-  // Set the new image source
-  lightboxImg.src = imageSrc;
+  // Clear any previous image source to prevent showing old image
+  lightboxImg.src = "";
 
-  // Show the lightbox
-  lightbox.style.display = "block";
-  document.body.style.overflow = "hidden"; // Prevent scrolling
+  // Prevent scrolling
+  document.body.style.overflow = "hidden";
 
   // Fade in the lightbox background first
   setTimeout(() => {
     lightbox.style.opacity = "1";
   }, 10);
 
-  // Fade in the new image after a brief delay
-  setTimeout(() => {
-    lightboxImg.style.opacity = "1";
-  }, 100);
+  // Create a new image object to preload
+  const newImage = new Image();
+
+  // Once the new image is loaded, set it as source and fade it in
+  newImage.onload = function () {
+    lightboxImg.src = imageSrc;
+    // Fade in the new image once it's loaded
+    setTimeout(() => {
+      lightboxImg.style.opacity = "1";
+    }, 50);
+  };
+
+  // Handle image load errors
+  newImage.onerror = function () {
+    console.error("Failed to load image:", imageSrc);
+    lightboxImg.style.opacity = "1"; // Still show the lightbox even if image fails
+  };
+
+  // Start loading the new image
+  newImage.src = imageSrc;
 }
 
 // Open lightbox when band photos are clicked
