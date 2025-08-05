@@ -252,20 +252,45 @@ const lightboxClose = document.querySelector(".lightbox-close");
 
 // Open lightbox function with fade-in effect
 function openLightbox(imageSrc) {
-  // Clear the previous image first
-  lightboxImg.style.opacity = "0";
+  // If lightbox is already open, fade out the current image first
+  if (lightbox.style.display === "block") {
+    lightboxImg.style.opacity = "0";
 
-  // Set the new image source
-  lightboxImg.src = imageSrc;
+    // Wait for fade out, then change image and fade in
+    setTimeout(() => {
+      // Clear the previous image source completely
+      lightboxImg.src = "";
 
-  // Show the lightbox
-  lightbox.style.display = "block";
-  document.body.style.overflow = "hidden"; // Prevent scrolling
+      // Set the new image source
+      lightboxImg.src = imageSrc;
 
-  // Fade in the new image after a brief delay
-  setTimeout(() => {
-    lightboxImg.style.opacity = "1";
-  }, 50);
+      // Fade in the new image
+      setTimeout(() => {
+        lightboxImg.style.opacity = "1";
+      }, 50);
+    }, 400); // Wait for fade out transition
+  } else {
+    // First time opening - clear any previous image and set new one
+    lightboxImg.src = "";
+    lightboxImg.style.opacity = "0";
+
+    // Set the new image source
+    lightboxImg.src = imageSrc;
+
+    // Show the lightbox
+    lightbox.style.display = "block";
+    document.body.style.overflow = "hidden"; // Prevent scrolling
+
+    // Fade in the lightbox background first
+    setTimeout(() => {
+      lightbox.style.opacity = "1";
+    }, 10);
+
+    // Fade in the new image after a brief delay
+    setTimeout(() => {
+      lightboxImg.style.opacity = "1";
+    }, 100);
+  }
 }
 
 // Open lightbox when band photos are clicked
@@ -278,26 +303,36 @@ document.addEventListener("click", function (e) {
 // Close lightbox when clicking the close button or outside the image
 lightbox.addEventListener("click", function (e) {
   if (e.target === lightbox || e.target === lightboxClose) {
-    // Fade out the lightbox
-    lightbox.style.opacity = "0";
+    // Fade out the image first
+    lightboxImg.style.opacity = "0";
+
+    // Then fade out the lightbox background
     setTimeout(() => {
-      lightbox.style.display = "none";
-      lightbox.style.opacity = "1"; // Reset opacity for next open
-      document.body.style.overflow = "auto"; // Restore scrolling
-    }, 300);
+      lightbox.style.opacity = "0";
+      setTimeout(() => {
+        lightbox.style.display = "none";
+        lightbox.style.opacity = "0"; // Keep opacity at 0 for next open
+        document.body.style.overflow = "auto"; // Restore scrolling
+      }, 400);
+    }, 100);
   }
 });
 
 // Close lightbox with Escape key
 document.addEventListener("keydown", function (e) {
   if (e.key === "Escape" && lightbox.style.display === "block") {
-    // Fade out the lightbox
-    lightbox.style.opacity = "0";
+    // Fade out the image first
+    lightboxImg.style.opacity = "0";
+
+    // Then fade out the lightbox background
     setTimeout(() => {
-      lightbox.style.display = "none";
-      lightbox.style.opacity = "1"; // Reset opacity for next open
-      document.body.style.overflow = "auto";
-    }, 300);
+      lightbox.style.opacity = "0";
+      setTimeout(() => {
+        lightbox.style.display = "none";
+        lightbox.style.opacity = "0"; // Keep opacity at 0 for next open
+        document.body.style.overflow = "auto";
+      }, 400);
+    }, 100);
   }
 });
 

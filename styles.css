@@ -295,8 +295,8 @@ body.oyster::before {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(10px);
-  opacity: 1;
-  transition: opacity 0.3s ease;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
 }
 
 .lightbox-content {
@@ -318,8 +318,8 @@ body.oyster::before {
   object-fit: contain;
   border-radius: 15px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-  opacity: 1;
-  transition: opacity 0.3s ease;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
 }
 
 .lightbox-close {
