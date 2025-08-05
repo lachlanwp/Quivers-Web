@@ -250,11 +250,22 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightbox-img");
 const lightboxClose = document.querySelector(".lightbox-close");
 
-// Open lightbox function
+// Open lightbox function with fade-in effect
 function openLightbox(imageSrc) {
+  // Clear the previous image first
+  lightboxImg.style.opacity = "0";
+
+  // Set the new image source
   lightboxImg.src = imageSrc;
+
+  // Show the lightbox and prevent body scroll
   lightbox.style.display = "block";
-  document.body.style.overflow = "hidden"; // Prevent scrolling
+  document.body.classList.add("lightbox-open");
+
+  // Fade in the new image after a brief delay
+  setTimeout(() => {
+    lightboxImg.style.opacity = "1";
+  }, 50);
 }
 
 // Open lightbox when band photos are clicked
@@ -267,16 +278,26 @@ document.addEventListener("click", function (e) {
 // Close lightbox when clicking the close button or outside the image
 lightbox.addEventListener("click", function (e) {
   if (e.target === lightbox || e.target === lightboxClose) {
-    lightbox.style.display = "none";
-    document.body.style.overflow = "auto"; // Restore scrolling
+    // Fade out the lightbox
+    lightbox.style.opacity = "0";
+    setTimeout(() => {
+      lightbox.style.display = "none";
+      lightbox.style.opacity = "1"; // Reset opacity for next open
+      document.body.classList.remove("lightbox-open"); // Restore scrolling
+    }, 300);
   }
 });
 
 // Close lightbox with Escape key
 document.addEventListener("keydown", function (e) {
   if (e.key === "Escape" && lightbox.style.display === "block") {
-    lightbox.style.display = "none";
-    document.body.style.overflow = "auto";
+    // Fade out the lightbox
+    lightbox.style.opacity = "0";
+    setTimeout(() => {
+      lightbox.style.display = "none";
+      lightbox.style.opacity = "1"; // Reset opacity for next open
+      document.body.classList.remove("lightbox-open");
+    }, 300);
   }
 });
 
