@@ -258,9 +258,9 @@ function openLightbox(imageSrc) {
   // Set the new image source
   lightboxImg.src = imageSrc;
 
-  // Show the lightbox and prevent body scroll
+  // Show the lightbox
   lightbox.style.display = "block";
-  document.body.classList.add("lightbox-open");
+  document.body.style.overflow = "hidden"; // Prevent scrolling
 
   // Fade in the new image after a brief delay
   setTimeout(() => {
@@ -283,7 +283,7 @@ lightbox.addEventListener("click", function (e) {
     setTimeout(() => {
       lightbox.style.display = "none";
       lightbox.style.opacity = "1"; // Reset opacity for next open
-      document.body.classList.remove("lightbox-open"); // Restore scrolling
+      document.body.style.overflow = "auto"; // Restore scrolling
     }, 300);
   }
 });
@@ -296,7 +296,7 @@ document.addEventListener("keydown", function (e) {
     setTimeout(() => {
       lightbox.style.display = "none";
       lightbox.style.opacity = "1"; // Reset opacity for next open
-      document.body.classList.remove("lightbox-open");
+      document.body.style.overflow = "auto";
     }, 300);
   }
 });
