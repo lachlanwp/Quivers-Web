@@ -90,13 +90,13 @@ window.addEventListener("scroll", () => {
 window.addEventListener("scroll", () => {
   const scrolled = window.pageYOffset;
   const body = document.body;
-  
+
   // Apply parallax effect to the background image
   // Move the background at 50% of the scroll speed for a subtle effect
   const parallaxRate = scrolled * 0.5;
-  
+
   // Use CSS custom property for smooth performance
-  body.style.setProperty('--parallax-y', `${parallaxRate}px`);
+  body.style.setProperty("--parallax-y", `${parallaxRate}px`);
 });
 
 // Fade in animation for elements
@@ -250,12 +250,17 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightbox-img");
 const lightboxClose = document.querySelector(".lightbox-close");
 
+// Open lightbox function
+function openLightbox(imageSrc) {
+  lightboxImg.src = imageSrc;
+  lightbox.style.display = "block";
+  document.body.style.overflow = "hidden"; // Prevent scrolling
+}
+
 // Open lightbox when band photos are clicked
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("band-photo")) {
-    lightboxImg.src = e.target.src;
-    lightbox.style.display = "block";
-    document.body.style.overflow = "hidden"; // Prevent scrolling
+    openLightbox(e.target.src);
   }
 });
 
