@@ -793,32 +793,21 @@ footer {
   margin-bottom: 3rem;
 }
 
-.video-container {
+.videos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-.video-item {
-  background: linear-gradient(145deg, #0a0a0a, #111111);
-  border-radius: 20px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-}
-
-.video-item:hover {
-  transform: translateY(-5px);
-}
-
-.video-item iframe {
+.videos-grid iframe {
   width: 100%;
   height: 325px;
   border: none;
+  border-radius: 20px;
+  aspect-ratio: 16/9;
 }
 
 /* Contact Page */
@@ -986,6 +975,16 @@ footer {
     grid-template-columns: 1fr;
   }
 
+  .videos-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 15px;
+  }
+
+  .videos-grid iframe {
+    height: 250px;
+  }
+
   .contact-grid {
     grid-template-columns: 1fr;
   }
@@ -1000,6 +999,15 @@ footer {
 
   .contact-hero h1 {
     font-size: 2.5rem;
+  }
+
+  .videos-hero {
+    padding: 100px 15px 60px;
+  }
+
+  .videos-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
   }
 }
 
@@ -1032,11 +1040,67 @@ footer {
   .videos-grid h2 {
     font-size: 2rem;
   }
+
+  .photos-container {
+    padding: 0;
+    gap: 0.5rem;
+  }
+
+  .photo-item img {
+    height: 180px;
+  }
+
+  .videos-grid {
+    gap: 1rem;
+    padding: 0 10px;
+  }
+
+  .videos-grid iframe {
+    height: 200px;
+  }
+
+  .videos-hero {
+    padding: 80px 10px 40px;
+  }
+
+  .videos-hero h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
 }
 
 @media (max-width: 800px) {
   .photos-container {
     grid-template-columns: 1fr;
+    padding: 0;
+    gap: 1rem;
+  }
+
+  .photos-hero .container {
+    padding: 0;
+  }
+
+  .photo-item img {
+    height: 250px;
+  }
+
+  .videos-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 15px;
+  }
+
+  .videos-grid iframe {
+    height: 280px;
+  }
+
+  .videos-hero {
+    padding: 100px 15px 60px;
+  }
+
+  .videos-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
   }
 
   .lightbox-content {
