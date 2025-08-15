@@ -1,13 +1,3 @@
-// Google Analytics 4 Tracking Code
-// Initialize Google Analytics with measurement ID G-YMG0NST2G1
-window.dataLayer = window.dataLayer || [];
-function gtag() {
-  dataLayer.push(arguments);
-}
-gtag("js", new Date());
-gtag("config", "G-YMG0NST2G1");
-// End Google Analytics 4 Tracking Code
-
 // Mobile navigation toggle
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
