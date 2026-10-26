@@ -102,14 +102,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Random background plant (styles.c1ygwp.css: body.<plant>::before).
+// Random background plant (styles.2t4kq8.css: body.<plant>::before).
 // Avoids repeating the previous page's plant when browsing between pages.
 // Paths are written out in full so cacheBust.sh can rewrite them.
 const backgroundPlantImages = {
-  wattle: "images/wattle.dq6df4.svg",
-  eucalyptus: "images/eucalyptus.8zqzfz.svg",
-  "kangaroo-paw": "images/kangaroo-paw.zjzrqi.svg",
-  bottlebrush: "images/bottlebrush.hjdtkh.svg",
+  wattle: "images/wattle.mzmz68.svg",
+  eucalyptus: "images/eucalyptus.yx5vss.svg",
+  "kangaroo-paw": "images/kangaroo-paw.rvcjx6.svg",
+  bottlebrush: "images/bottlebrush.053f8u.svg",
 };
 const backgroundPlants = Object.keys(backgroundPlantImages);
 let lastPlant = null;
@@ -127,9 +127,9 @@ try {
 
 // Image preloading system
 const imagesToPreload = [
-  "images/logo-vector/quivers-logo-white.6a1r9c.svg",
-  "images/band-photo.smxc75.jpg",
-  "images/band-photo-2.n68qth.jpg",
+  "images/logo-vector/quivers-logo-white.rz4e36.svg",
+  "images/band-photo.sd12g8.jpg",
+  "images/band-photo-2.lcyw25.jpg",
   backgroundPlantImages[backgroundPlant],
 ];
 

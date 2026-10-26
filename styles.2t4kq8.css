@@ -84,21 +84,21 @@ body::before {
   will-change: transform;
 }
 
-/* Hand-drawn Australian plants; script.36za6f.js picks one at random per page load */
+/* Hand-drawn Australian plants; script.obya7l.js picks one at random per page load */
 body.wattle::before {
-  background-image: url("images/wattle.dq6df4.svg");
+  background-image: url("images/wattle.mzmz68.svg");
 }
 
 body.eucalyptus::before {
-  background-image: url("images/eucalyptus.8zqzfz.svg");
+  background-image: url("images/eucalyptus.yx5vss.svg");
 }
 
 body.kangaroo-paw::before {
-  background-image: url("images/kangaroo-paw.zjzrqi.svg");
+  background-image: url("images/kangaroo-paw.rvcjx6.svg");
 }
 
 body.bottlebrush::before {
-  background-image: url("images/bottlebrush.hjdtkh.svg");
+  background-image: url("images/bottlebrush.053f8u.svg");
 }
 
 .container {
@@ -132,6 +132,14 @@ body.bottlebrush::before {
 .nav-logo .logo {
   height: 40px;
   width: auto;
+}
+
+/* Home page: the hero already shows the logo on desktop. Hidden rather than
+   removed so the menu stays on the right and the bar keeps its height. */
+@media (min-width: 769px) {
+  .nav-logo-mobile-only {
+    visibility: hidden;
+  }
 }
 
 .nav-menu {
