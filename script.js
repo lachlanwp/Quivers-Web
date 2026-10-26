@@ -102,14 +102,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Random background plant (styles.css: body.<plant>::before).
+// Avoids repeating the previous page's plant when browsing between pages.
+const backgroundPlants = ["wattle", "eucalyptus", "kangaroo-paw", "bottlebrush"];
+let lastPlant = null;
+try {
+  lastPlant = sessionStorage.getItem("backgroundPlant");
+} catch (e) {}
+const plantChoices = backgroundPlants.filter((p) => p !== lastPlant);
+const backgroundPlant =
+  plantChoices[Math.floor(Math.random() * plantChoices.length)];
+document.body.classList.remove(...backgroundPlants);
+document.body.classList.add(backgroundPlant);
+try {
+  sessionStorage.setItem("backgroundPlant", backgroundPlant);
+} catch (e) {}
+
 // Image preloading system
 const imagesToPreload = [
-  "images/band-logo.png",
+  "images/logo-vector/quivers-logo-white.svg",
   "images/band-photo.jpg",
   "images/band-photo-2.jpg",
-  "images/oyster-cuts-album-cover.jpg",
-  "images/fish.png",
-  "images/oyster.png",
+  `images/${backgroundPlant}.svg`,
 ];
 
 let loadedImages = 0;

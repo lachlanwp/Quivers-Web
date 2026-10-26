@@ -81,7 +81,9 @@ Quivers-Web/
 ├── styles.css                    # Main stylesheet
 ├── script.js                     # JavaScript functionality
 ├── images/
-│   ├── band-logo.png            # Band logo
+│   ├── logo-vector/             # Band logo (SVG)
+│   │   ├── quivers-logo-black.svg # For light backgrounds
+│   │   └── quivers-logo-white.svg # For dark backgrounds
 │   ├── band-photo.jpg           # Main band photo
 │   ├── band-photo-2.jpg         # Secondary band photo
 │   ├── oyster-cuts-album-cover.jpg # Latest album cover

@@ -68,7 +68,7 @@
       // End Google Analytics 4 Tracking Code
     </script>
   </head>
-  <body class="fish">
+  <body class="wattle">
     <!-- Loading Screen -->
     <div class="loading-screen">
       <div class="loading-progress">
@@ -81,7 +81,7 @@
         <div class="nav-container">
           <div class="nav-logo">
             <a href="index.html">
-              <img src="images/band-logo.png" alt="Quivers" class="logo" />
+              <img src="images/logo-vector/quivers-logo-white.svg" alt="Quivers" class="logo" />
             </a>
           </div>
           <ul class="nav-menu">
@@ -110,12 +110,6 @@
               >
             </li>
             <li class="nav-item">
-              <a href="photos.html" class="nav-link">Photos</a>
-            </li>
-            <li class="nav-item">
-              <a href="videos.html" class="nav-link">Videos</a>
-            </li>
-            <li class="nav-item">
               <a href="contact.html" class="nav-link">Contact</a>
             </li>
           </ul>
@@ -131,13 +125,21 @@
     <main>
       <section class="hero">
         <div class="hero-content">
-          <h1 class="hero-title">Quivers</h1>
+          <h1 class="hero-title">
+            <img
+              src="images/logo-vector/quivers-logo-white.svg"
+              alt="Quivers"
+              class="hero-logo"
+              width="485"
+              height="150"
+            />
+          </h1>
           <p class="hero-subtitle hero-subtitle-home">
             Cathartic jangle pop from Melbourne, Australia
           </p>
           <div class="hero-buttons">
             <a href="about.html" class="btn btn-primary">Learn More</a>
-            <a href="videos.html" class="btn btn-secondary">Watch Videos</a>
+            <a href="contact.html" class="btn btn-secondary">Contact Quivers</a>
           </div>
         </div>
         <div class="hero-image">
@@ -149,51 +151,42 @@
         </div>
       </section>
 
-      <section class="latest-release">
+      <section class="upcoming-shows" id="shows">
         <div class="container">
-          <h2>Latest Release</h2>
-          <div class="release-content">
-            <div class="release-info">
-              <h3>OYSTER CUTS</h3>
-              <div class="album-cover">
-                <img
-                  src="images/oyster-cuts-album-cover.jpg"
-                  alt="Oyster Cuts Album Cover"
-                  class="album-cover-img"
-                />
-              </div>
-              <p class="release-date">Available Now via Merge Records</p>
-              <p class="release-description">
-                Quivers dive into a tougher and more expansive pop with both
-                Bella and Sam sharing singing duties. There's more angular than
-                jangular guitars now, 1970s synth drones, and more songs about
-                hometowns, friendship, giving in to love, and swimming away from
-                grief. Get your copy from
-                <a
-                  href="https://www.mergerecords.com/artist/quivers"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Merge Records</a
-                >
-                or
-                <a
-                  href="https://quiversss.bandcamp.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Bandcamp</a
-                >!
-              </p>
-              <div class="release-links">
-                <a
-                  href="https://quiversss.bandcamp.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn btn-primary"
-                  >Order Now</a
-                >
-                <a href="videos.html" class="btn btn-outline">Watch Videos</a>
-              </div>
-            </div>
+          <h2>Upcoming Shows</h2>
+          <div class="shows-widget">
+            <!--
+              Bandsintown Events Widget (V3). Shows are managed in
+              Bandsintown for Artists; this list updates automatically.
+              The fallback link below shows until the widget loads.
+              Keep these settings in sync with about.html.
+            -->
+            <a
+              class="bit-widget-initializer"
+              href="https://www.bandsintown.com/a/768076-quivers"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-artist-name="id_768076"
+              data-app-id="js_quiversmusic.com"
+              data-layout-style="cards"
+              data-auto-style="false"
+              data-font="Inter"
+              data-font-size="16px"
+              data-text-color="#FFFFFF"
+              data-date-color="#02BACD"
+              data-background-color="rgba(0,0,0,0)"
+              data-separator-color="rgba(255,255,255,0.15)"
+              data-link-color="#02BACD"
+              data-link-text-color="#FFFFFF"
+              data-display-local-dates="false"
+              data-display-past-dates="false"
+              data-display-lineup="true"
+              data-event-ticket-cta-bg-color="#02BACD"
+              data-event-ticket-cta-text-color="#FFFFFF"
+              data-event-ticket-cta-border-color="#02BACD"
+              data-event-ticket-cta-border-radius="25px"
+              >See all Quivers tour dates on Bandsintown</a
+            >
           </div>
         </div>
       </section>
@@ -230,7 +223,7 @@
           <div class="footer-logo">
             <a href="index.html">
               <img
-                src="images/band-logo.png"
+                src="images/logo-vector/quivers-logo-white.svg"
                 alt="Quivers"
                 class="footer-logo-img"
               />
@@ -316,7 +309,7 @@
         </div>
         <div class="footer-bottom">
           <p>
-            &copy; 2021-2025 by QUIVERS/PINK LAKE RECORDS. |
+            &copy; 2021-2026 by Rain Brain |
             <a
               href="https://www.mergerecords.com/artist/quivers"
               target="_blank"
@@ -337,5 +330,10 @@
     </div>
 
     <script src="script.js"></script>
+    <script
+      async
+      charset="utf-8"
+      src="https://widgetv3.bandsintown.com/main.min.js"
+    ></script>
   </body>
 </html>
