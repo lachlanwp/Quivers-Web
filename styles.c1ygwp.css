@@ -84,21 +84,21 @@ body::before {
   will-change: transform;
 }
 
-/* Hand-drawn Australian plants; script.js picks one at random per page load */
+/* Hand-drawn Australian plants; script.36za6f.js picks one at random per page load */
 body.wattle::before {
-  background-image: url("images/wattle.svg");
+  background-image: url("images/wattle.dq6df4.svg");
 }
 
 body.eucalyptus::before {
-  background-image: url("images/eucalyptus.svg");
+  background-image: url("images/eucalyptus.8zqzfz.svg");
 }
 
 body.kangaroo-paw::before {
-  background-image: url("images/kangaroo-paw.svg");
+  background-image: url("images/kangaroo-paw.zjzrqi.svg");
 }
 
 body.bottlebrush::before {
-  background-image: url("images/bottlebrush.svg");
+  background-image: url("images/bottlebrush.hjdtkh.svg");
 }
 
 .container {
