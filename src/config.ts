@@ -17,7 +17,7 @@ export const config = {
   // load them from the bucket's own S3 address. Remove the entry once the
   // files are served from a working domain again.
   mediaHosts: {
-    "cdn2.musicpowered.net": "https://s3.ap-southeast-2.amazonaws.com/cdn2.musicpowered.net",
+    "cdn2.musicpowered.net": "https://s3.ap-southeast-2.amazonaws.com/cdn.quiversmusic.com",
   } as Record<string, string>,
   requestTimeoutMs: 15000,
 } as const;
