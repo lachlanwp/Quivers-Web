@@ -8,10 +8,6 @@ export const config = {
   // shipping costs from the customer's address.
   googleMapsApiKey: __GOOGLE_MAPS_API_KEY__,
   bandcampMerchUrl: "https://quiversss.bandcamp.com/merch",
-  // Show the bio and band members from the MusicPowered admin instead of the
-  // copy in about.html. Off because the admin still has the 2024 bio and the
-  // previous line-up; update them there first, then set this to true.
-  aboutFromApi: false,
   // Photos and audio uploaded through MusicPowered are in the S3 bucket
   // "cdn2.musicpowered.net", but the musicpowered.net domain has lapsed, so
   // load them from the bucket's own S3 address. Remove the entry once the

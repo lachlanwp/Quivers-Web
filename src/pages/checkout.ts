@@ -12,6 +12,7 @@ import { track } from "../lib/analytics";
 import { html, qs, qsa, render, type SafeHtml } from "../lib/dom";
 import { money, moneyText } from "../lib/format";
 import { lockNavigation } from "../site/router";
+import { highlightColour } from "../site/theme";
 import { renderIfChanged, type PageInit } from "./page";
 
 type Step = "details" | "payment" | "done";
@@ -24,16 +25,16 @@ interface Receipt {
   currency: string;
 }
 
-const CARD_STYLE: StripeElementStyle = {
+const cardStyle = (): StripeElementStyle => ({
   base: {
     color: "#ffffff",
     fontFamily: "Inter, sans-serif",
     fontSize: "16px",
-    iconColor: "#02bacd",
+    iconColor: highlightColour(),
     "::placeholder": { color: "#777777" },
   },
   invalid: { color: "#ff6b6b", iconColor: "#ff6b6b" },
-};
+});
 
 const CONTACT_EMAIL = "quiversmusic@gmail.com";
 
@@ -347,7 +348,7 @@ export const checkout: PageInit = ({ main, cleanup }) => {
     const elements = stripe.elements({
       fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" }],
     });
-    const options = { style: CARD_STYLE };
+    const options = { style: cardStyle() };
     card = elements.create("cardNumber", { ...options, showIcon: true });
     const expiry = elements.create("cardExpiry", options);
     const cvc = elements.create("cardCvc", options);

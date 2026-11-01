@@ -3,7 +3,7 @@ import { html, qs } from "../lib/dom";
 import { player } from "../player/player";
 import { renderIfChanged, type PageInit } from "./page";
 
-const FALLBACK_COVER = "images/logo-vector/quivers-logo-white.rz4e36.svg";
+const FALLBACK_COVER = "images/quivers-logo-white.86jnz7.png";
 
 export const music: PageInit = ({ main, cleanup }) => {
   const section = qs("[data-tracks]", main);

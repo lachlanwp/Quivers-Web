@@ -94,6 +94,24 @@ export const band = {
     });
     return inflight;
   },
+  /**
+   * Resolves once there is band data to show (cached or fetched) or the API
+   * has failed, or after timeoutMs at the latest.
+   */
+  whenReady(timeoutMs: number): Promise<void> {
+    if (store.get().status !== "loading") return Promise.resolve();
+    return new Promise((resolve) => {
+      const timer = window.setTimeout(done, timeoutMs);
+      const unsubscribe = store.subscribe((state) => {
+        if (state.status !== "loading") done();
+      });
+      function done() {
+        window.clearTimeout(timer);
+        unsubscribe();
+        resolve();
+      }
+    });
+  },
 };
 
 export const currencyOf = (state: BandState): string => state.about?.currency || "AUD";

@@ -1,4 +1,3 @@
-import { config } from "../config";
 import { band } from "../data/band";
 import { html, qs, qsa } from "../lib/dom";
 import { hasText, sanitizeHtml } from "../lib/sanitize";
@@ -12,7 +11,6 @@ const splitMember = (entry: string): { name: string; role: string } => {
 };
 
 export const about: PageInit = ({ main, cleanup }) => {
-  if (!config.aboutFromApi) return;
   const bio = qs("[data-about-content]", main);
   const members = qs("[data-members]", main);
 

@@ -13,7 +13,7 @@
 # them from other sites keep working.
 #
 # Notes:
-# - Asset paths must be written out in full in the code ("images/wattle.svg").
+# - Asset paths must be written out in full in the code ("images/wattle.png").
 #   A path built at runtime, like `images/${name}.svg`, can't be updated.
 # - A previous suffix is spotted as ".xxxxxx" (6 lowercase letters/digits)
 #   right before the extension, so avoid names like "app.vendor.js".

@@ -1,9 +1,9 @@
 import { qs } from "../lib/dom";
 import { refreshBandsintown } from "./bandsintown";
 import { closeAllDialogs } from "./dialog";
-import { choosePlant } from "./effects";
 import { closeLightbox } from "./lightbox";
 import { syncNav } from "./nav";
+import { syncBackground } from "./theme";
 import { toast } from "./toast";
 
 // Links between pages swap the page's <main> instead of reloading, so the
@@ -89,7 +89,7 @@ const navigate = async (url: URL, options: { push: boolean; scroll?: number }): 
     const adopted = document.adoptNode(nextMain);
     main.replaceWith(adopted);
     syncNav(next);
-    choosePlant();
+    syncBackground(next);
 
     if (!scrollToHash(url.hash, false)) window.scrollTo(0, options.scroll ?? 0);
     adopted.setAttribute("tabindex", "-1");

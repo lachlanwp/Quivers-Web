@@ -1,37 +1,13 @@
 import { qsa } from "../lib/dom";
 
-// Hand-drawn Australian plants behind each page (styles: body.<plant>::before).
-const PLANTS = ["wattle", "eucalyptus", "kangaroo-paw", "bottlebrush"];
-const PLANT_KEY = "backgroundPlant";
-
-/** Picks a background plant at random, avoiding the one shown last. */
-export const choosePlant = (): void => {
-  let last: string | null = null;
-  try {
-    last = sessionStorage.getItem(PLANT_KEY);
-  } catch {
-    last = null;
-  }
-  const current = PLANTS.find((p) => document.body.classList.contains(p));
-  const choices = PLANTS.filter((p) => p !== last && p !== current);
-  const plant = choices[Math.floor(Math.random() * choices.length)] ?? PLANTS[0];
-  document.body.classList.remove(...PLANTS);
-  document.body.classList.add(plant);
-  try {
-    sessionStorage.setItem(PLANT_KEY, plant);
-  } catch {
-    // Not remembered; the next page may repeat it.
-  }
-};
-
-/** URL of the current background plant image, read from the stylesheet. */
-export const plantImageUrl = (): string | null => {
+/** URL of the page's background image (body::before), read from the stylesheet. */
+export const pageBackgroundUrl = (): string | null => {
   const background = getComputedStyle(document.body, "::before").backgroundImage;
   const match = /url\(["']?([^"')]+)["']?\)/.exec(background);
   return match ? match[1] : null;
 };
 
-/** Hero text drifts up and the background plant scrolls at half speed. */
+/** Hero text drifts up and the page background scrolls at half speed. */
 export const initParallax = (): void => {
   let ticking = false;
   const update = () => {
