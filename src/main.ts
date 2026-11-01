@@ -1,9 +1,11 @@
+import { socialLinks } from "./components/band-links";
 import { initNewsletterForms } from "./components/forms";
 import { band } from "./data/band";
 import { cart } from "./data/cart";
 import { startAnalytics } from "./lib/analytics";
 import { qs } from "./lib/dom";
 import { pages } from "./pages";
+import { renderIfChanged } from "./pages/page";
 import { initPlayer } from "./player/player";
 import { refreshBandsintown } from "./site/bandsintown";
 import { initParallax, observeFadeIns } from "./site/effects";
@@ -45,6 +47,12 @@ mountPage();
 
 void band.refresh();
 band.subscribe((state) => startAnalytics(state.about?.ga_tag));
+// The band's socials and music services replace the footer's own links.
+const footerLinks = qs("[data-social-links]");
+band.subscribe((state) => {
+  const links = socialLinks(state.links);
+  if (footerLinks && links) renderIfChanged(footerLinks, links);
+});
 // The tour widget takes its colours when it loads, so wait for the band's.
 void band.whenReady(3000).then(() => refreshBandsintown(document));
 // Once the store's products are known, drop cart items that are no longer for sale.

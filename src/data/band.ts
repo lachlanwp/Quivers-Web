@@ -1,4 +1,4 @@
-import { api, type About, type BandMember, type Merch, type Playlist, type SiteSettings } from "../api/client";
+import { api, type About, type BandMember, type ContactDetail, type FooterLink, type Merch, type Playlist, type SiteSettings } from "../api/client";
 import { config } from "../config";
 import { safeUrl } from "../lib/dom";
 import { withMediaUrls } from "./media";
@@ -17,9 +17,13 @@ export interface BandState {
   merch: Merch[];
   playlist: Playlist[];
   members: BandMember[];
+  /** Socials and music services, in the order they were added. */
+  links: FooterLink[];
+  /** The Contact page's details (rich text). */
+  contact: ContactDetail | null;
 }
 
-const CACHE_KEY = "quivers.band.v1";
+const CACHE_KEY = "quivers.band.v3";
 
 const empty: BandState = {
   status: "loading",
@@ -31,6 +35,8 @@ const empty: BandState = {
   merch: [],
   playlist: [],
   members: [],
+  links: [],
+  contact: null,
 };
 
 // Show what we had last time straight away, then refresh from the API.
@@ -51,11 +57,13 @@ const fetchAll = async (): Promise<void> => {
   try {
     const about = (await api.aboutControllerFindOneBySlug(config.bandSlug)).data;
     const userId = about.user_id;
-    const [settings, merch, playlist, members] = await Promise.all([
+    const [settings, merch, playlist, members, links, contact] = await Promise.all([
       settle<SiteSettings | null>(api.siteSettingsControllerFindOne(userId), null),
       settle<Merch[]>(api.merchControllerFindForUser(userId), []),
       settle<Playlist[]>(api.playlistControllerFindForUser(userId), []),
       settle<BandMember[]>(api.bandMemberControllerFindForUser(userId), []),
+      settle<FooterLink[]>(api.footerLinksControllerFindForUser(userId), []),
+      settle<ContactDetail | null>(api.contactDetailsControllerFindForUser(userId), null),
     ]);
     const next: BandState = {
       status: "ready",
@@ -71,6 +79,10 @@ const fetchAll = async (): Promise<void> => {
       members: (Array.isArray(members) ? members : [])
         .slice()
         .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0)),
+      links: (Array.isArray(links) ? links : [])
+        .slice()
+        .sort((a, b) => (a.created_on ?? "").localeCompare(b.created_on ?? "")),
+      contact,
     };
     store.set(next);
     writeJson("session", CACHE_KEY, next);

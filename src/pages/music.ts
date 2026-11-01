@@ -1,11 +1,25 @@
+import { streamCards } from "../components/band-links";
 import { icon } from "../components/icons";
+import { band } from "../data/band";
 import { html, qs } from "../lib/dom";
 import { player } from "../player/player";
+import { observeFadeIns } from "../site/effects";
 import { renderIfChanged, type PageInit } from "./page";
 
 const FALLBACK_COVER = "images/quivers-logo-white.86jnz7.png";
 
 export const music: PageInit = ({ main, cleanup }) => {
+  // The band's music services replace the page's own "Stream & Buy" cards.
+  const streams = qs("[data-stream-links]", main);
+  if (streams) {
+    cleanup(
+      band.subscribe((state) => {
+        const cards = streamCards(state.links);
+        if (cards && renderIfChanged(streams, cards)) observeFadeIns(streams);
+      }),
+    );
+  }
+
   const section = qs("[data-tracks]", main);
   const list = qs("[data-track-list]", main);
   if (!section || !list) return;

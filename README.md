@@ -12,7 +12,7 @@ Their latest album **"Oyster Cuts"** was released worldwide via Merge Records on
 
 - **Merch store**: products, options (size, colour), "name your price", cart and card checkout via Stripe
 - **Music player**: plays the band's playlist on every page and keeps playing as you move between pages
-- **Band info and look from the API**, edited in the MusicPowered admin: bio, line-up, highlight colour, logo, band photos, page backgrounds and the Google Analytics ID
+- **Band info and look from the API**, edited in the MusicPowered admin: bio, line-up, contact details, social and streaming links, highlight colour, logo, band photos, page backgrounds and the Google Analytics ID
 - **Mailing list signup** (footer) and a **contact form**
 - **Tour dates** from Bandsintown
 - **Works without the API**: every page is complete HTML with its own copy of the bio, line-up, logo, photos, backgrounds and teal; if the API can't be reached, the store points to Bandcamp and the rest of the site still works (but Google Analytics doesn't start, as its ID comes from the API)
@@ -41,6 +41,8 @@ Their latest album **"Oyster Cuts"** was released worldwide via Merge Records on
   - **Page backgrounds**: `<body data-band-background="about_bg_img">` shows that field's image behind the page; the `<body>` class picks the local plant used without it. Home uses `tour_bg_img`, About `about_bg_img`, Contact `contact_bg_img`, and Music, Merch and the store pages `music_club_img`.
   - **Google Analytics** starts with the About record's `ga_tag` (`src/lib/analytics.ts`), so there's no tracking code in the pages.
 - The bio (`content`) and band members (`/band-member/user/…`) on the About page also come from the API.
+- The Contact page's details (`/contact-details/user/…`) are one block of rich text in the admin. `src/pages/contact.ts` splits it into the page's cards: each line that's all bold ("Enquiries:") starts a new card headed by that line.
+- The band's links (`/footer-links/user/…`) replace the footer's social icons, and the music services among them (Bandcamp, Spotify, Apple Music, YouTube) replace the Music page's "Stream & Buy" cards (`src/components/band-links.ts`). Each link's icon is a Font Awesome name from the admin (`facebook-f`, `apple`, …); a name the site has no icon for gets a plain link icon in the footer and no Music page card. The Merge Records card isn't in the API, so it stays in `music.html`.
 - `mediaHosts` in `src/config.ts`: photos and audio are in the `cdn2.musicpowered.net` S3 bucket, but that domain has lapsed, so they're loaded from the bucket's S3 address.
 - Links between pages swap the page content in place (`src/site/router.ts`) so the music keeps playing. Anything unexpected falls back to a normal page load.
 - The cart and checkout follow the MusicPowered web app: Stripe card payment (`POST /payments`), then the order (`POST /order`), the order email (`POST /notifications/order`) and a total check (`POST /order/verify`). Shipping is charged once per order at the highest shipping cost of anything in it, using the band's postage regions (looked up from the address with Google's Geocoding API).

@@ -12,6 +12,7 @@ import type {
   BandMember,
   ContactDetail,
   CreateOrderDto,
+  FooterLink,
   Merch,
   MerchVariation,
   MusicPoweredPaymentResponse,
@@ -74,6 +75,22 @@ const members: BandMember[] = [
   { id: "m3", user_id: USER_ID, name: "Thomas Skalicky", sort_order: 2 },
 ];
 
+const footerLinks: FooterLink[] = [
+  ["facebook-f", "https://www.facebook.com/quiversss/"],
+  ["instagram", "https://www.instagram.com/quiversss/"],
+  ["twitter", "https://twitter.com/quiversam"],
+  ["youtube", "https://www.youtube.com/channel/UCXb6GA1ei43w3SUmYheLXIg"],
+  ["spotify", "https://open.spotify.com/artist/0YUqHKQEwFgGaDVSaHTS55"],
+  ["apple", "https://music.apple.com/au/artist/quivers/455208806"],
+  ["bandcamp", "https://quiversss.bandcamp.com/"],
+].map(([icon, link], i) => ({
+  id: `link-${i + 1}`,
+  user_id: USER_ID,
+  icon,
+  link,
+  created_on: new Date(Date.UTC(2023, 9, 28, 12, 21, i)).toISOString(),
+}));
+
 const playlist: Playlist[] = [
   ["Bottle The Nervous", "seven-inch.svg"],
   ["Drive Somewhere", "seven-inch.svg"],
@@ -89,7 +106,20 @@ const playlist: Playlist[] = [
   created_on: "2026-10-01T00:00:00.000Z",
 }));
 
-const contactDetail: ContactDetail = { id: "contact-1", user_id: USER_ID, contact_html: "" };
+// Written in the admin's rich-text editor: bold lines start each card.
+const contactDetail: ContactDetail = {
+  id: "contact-1",
+  user_id: USER_ID,
+  contact_html:
+    '<p><strong style="color: #212529;">Enquiries:</strong></p>' +
+    '<p>Sam<br /><a href="mailto:quiversmusic@gmail.com">quiversmusic@gmail.com</a></p>' +
+    "<p><strong>Label:</strong></p>" +
+    '<p>Merge Records (Worldwide) &nbsp;<a href="mailto:merge@mergerecords.com">merge@mergerecords.com</a></p>' +
+    "<p><strong>Bookings:</strong></p>" +
+    '<p>US: <a href="mailto:jonathan@anniversarygroup.com">jonathan@anniversarygroup.com</a></p>' +
+    '<p>UK/EU: <a href="mailto:kai.lehmann@cabinartists.com">kai.lehmann@cabinartists.com</a></p>' +
+    "<p>&nbsp;</p>",
+};
 
 const variation = (merchId: string, label: string, options: [string, number][]): MerchVariation => {
   const id = `${merchId}-${label}`.toLowerCase();
@@ -331,6 +361,7 @@ export const handleMockApi = async (
   if (get && route === `/merch/user/${USER_ID}`) return json(res, 200, merch);
   if (get && route === `/playlist/user/${USER_ID}`) return json(res, 200, playlist);
   if (get && route === `/band-member/user/${USER_ID}`) return json(res, 200, members);
+  if (get && route === `/footer-links/user/${USER_ID}`) return json(res, 200, footerLinks);
   if (get && route === `/contact-details/user/${USER_ID}`) return json(res, 200, contactDetail);
 
   if (method === "POST") {

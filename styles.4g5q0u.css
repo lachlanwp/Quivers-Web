@@ -2736,6 +2736,11 @@ body[data-page="checkout"] main {
   gap: 1.5rem;
 }
 
+/* The cards from the API sit in the grid as if the wrapper weren't there */
+.stream-links {
+  display: contents;
+}
+
 .stream-card {
   display: flex;
   flex-direction: column;
