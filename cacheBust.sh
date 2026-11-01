@@ -3,7 +3,7 @@
 # cacheBust.sh: stop browsers serving stale CSS, JS and images.
 #
 # Gives each CSS, JS and image file the site references a random 6-character
-# suffix, then updates the references in the .html, .css and .js files:
+# suffix, then updates the references in the .html, .css, .js and .ts files:
 #
 #   styles.css             -> styles.k3x9q2.css
 #   images/band-photo.jpg  -> images/band-photo.p7d0wm.jpg
@@ -44,7 +44,7 @@ export CB_AFTER='(?![\w-]|\.\w)'
 list_files() {
   local args=() ext
   for ext in "$@"; do args+=(-o -iname "*.$ext"); done
-  find . \( -name .git -o -name node_modules \) -prune -o \
+  find . \( -name .git -o -name node_modules -o -name _site \) -prune -o \
     -type f \( "${args[@]:1}" \) -print | sed 's|^\./||' | sort
 }
 
@@ -52,8 +52,9 @@ assets=()
 while IFS= read -r f; do assets+=("$f"); done \
   < <(list_files css js jpg jpeg png gif svg webp avif)
 
+# .ts covers the site's TypeScript source in src/, which is bundled at deploy.
 sources=()
-while IFS= read -r f; do sources+=("$f"); done < <(list_files html css js)
+while IFS= read -r f; do sources+=("$f"); done < <(list_files html css js ts)
 
 if [[ ${#assets[@]} -eq 0 || ${#sources[@]} -eq 0 ]]; then
   echo "No assets or source files found."

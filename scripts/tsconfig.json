@@ -1,0 +1,18 @@
+{
+  // Build and dev tooling, run directly by Node (type stripping), so only
+  // erasable TypeScript syntax is allowed and imports keep their .ts extension.
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2023"],
+    "types": ["node"],
+    "strict": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true
+  },
+  "include": [".", "../dev", "../orval.config.ts"]
+}

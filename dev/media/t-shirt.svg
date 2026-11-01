@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <rect width="800" height="800" fill="#1b1b1f"/>
+  <path d="M290 150l-150 70-60 150 110 40 30-60v350h360V350l30 60 110-40-60-150-150-70c-15 45-60 75-110 75s-95-30-110-75z" fill="#02bacd"/>
+  <path d="M290 150c15 45 60 75 110 75s95-30 110-75" fill="none" stroke="#018d9c" stroke-width="10"/>
+  <text x="400" y="430" text-anchor="middle" font-family="Georgia, serif" font-size="72" font-style="italic" fill="#ffffff">Quivers</text>
+  <text x="400" y="480" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" letter-spacing="6" fill="#e8fbfd">MELBOURNE</text>
+</svg>

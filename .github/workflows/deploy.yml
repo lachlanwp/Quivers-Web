@@ -1,0 +1,67 @@
+# Type-checks and builds the site (TypeScript in src/ -> js/app.<hash>.js),
+# then publishes _site/ to GitHub Pages. Pull requests only build.
+#
+# One-time setup: Settings -> Pages -> Build and deployment -> Source:
+# "GitHub Actions". The custom domain (quiversmusic.com) is set on that page.
+#
+# Settings -> Secrets and variables -> Actions:
+#   Secret   GOOGLE_MAPS_API_KEY  (required) Geocoding key for regional shipping.
+#            It ends up in the public site script, so restrict it in Google
+#            Cloud to quiversmusic.com and the Geocoding API.
+#   Variable API_URL              (optional) default https://api.quiversmusic.com
+
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+
+      # Yarn 1 comes preinstalled on GitHub's runners.
+      - run: yarn install --frozen-lockfile
+
+      - name: Type-check
+        run: yarn typecheck
+
+      - name: Build
+        run: yarn build
+        env:
+          API_URL: ${{ vars.API_URL }}
+          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

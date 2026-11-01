@@ -1,1 +1,5 @@
+node_modules
 .DS_Store
+_site
+# Yarn only (see package.json devEngines)
+package-lock.json
