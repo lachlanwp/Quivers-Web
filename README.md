@@ -11,6 +11,7 @@ Their latest album **"Oyster Cuts"** was released worldwide via Merge Records on
 ## Website Features
 
 - **Merch store**: products, options (size, colour), "name your price", cart and card checkout via Stripe
+- **Payment links (QR codes)**: the band charges any amount from the admin; the customer scans the QR code, can add a tip and pays by card
 - **Music player**: plays the band's playlist on every page and keeps playing as you move between pages
 - **Band info and look from the API**, edited in the MusicPowered admin: bio, line-up, contact details, social and streaming links, highlight colour, logo, band photos, page backgrounds and the Google Analytics ID
 - **Mailing list signup** (footer) and a **contact form**
@@ -29,6 +30,7 @@ Their latest album **"Oyster Cuts"** was released worldwide via Merge Records on
 | `product.html?id=…` | One product: photos, options, add to cart |
 | `cart.html` | Cart |
 | `checkout.html` | Details → payment → confirmation |
+| `order.html?id=…` | Pays a payment link (the admin's QR code): band's note, amount, optional tip, card |
 | `contact.html` | Contacts for enquiries, label and bookings, plus a contact form |
 
 ## How It Works
@@ -46,6 +48,7 @@ Their latest album **"Oyster Cuts"** was released worldwide via Merge Records on
 - `mediaHosts` in `src/config.ts`: photos and audio are in the `cdn2.musicpowered.net` S3 bucket, but that domain has lapsed, so they're loaded from the bucket's S3 address.
 - Links between pages swap the page content in place (`src/site/router.ts`) so the music keeps playing. Anything unexpected falls back to a normal page load.
 - The cart and checkout follow the MusicPowered web app: Stripe card payment (`POST /payments`), then the order (`POST /order`), the order email (`POST /notifications/order`) and a total check (`POST /order/verify`). Shipping is charged once per order at the highest shipping cost of anything in it, using the band's postage regions (looked up from the address with Google's Geocoding API).
+- Payment links are "custom orders" in the API. In the admin (Orders) the band creates one for an amount and note, and shows the customer its QR code, which opens `order.html?id=<custom order id>`. The page (`src/pages/order.ts`) loads it (`GET /custom-orders/{id}`), takes the card payment (`POST /payments`, in the order's currency, plus any tip), marks it paid (`PUT /custom-orders/complete`) and emails the band (`POST /notifications/custom_order`). The API only returns links that are unpaid, unrefunded and not deleted, so a link can't be paid twice. Older QR codes point at `/order/<id>`: `404.html` forwards those to `order.html?id=<id>`.
 
 ## File Structure
 
@@ -108,7 +111,7 @@ yarn install
 yarn start          # http://localhost:8080, rebuilds and reloads on changes
 ```
 
-`yarn start` uses sample data from `dev/mock-api.ts`, so the store, player and forms all work locally. Payments there always succeed without charging anything (the sample Stripe key is fake, so the card fields won't accept input). Options:
+`yarn start` uses sample data from `dev/mock-api.ts`, so the store, player and forms all work locally. Sample payment links: `order.html?id=sample-payment` (with a note) and `order.html?id=sample-no-note`; paying one uses it up until you restart `yarn start`. Payments there always succeed without charging anything (the sample Stripe key is fake, so the card fields won't accept input). Options:
 
 ```sh
 MOCK_API_DOWN=1 yarn start               # see how the site copes without the API

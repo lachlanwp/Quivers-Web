@@ -1,7 +1,9 @@
-import { loadStripe, type Stripe, type StripeCardNumberElement, type StripeElementStyle } from "@stripe/stripe-js";
-import { api, errorMessage, type CreateOrderDto } from "../api/client";
+import type { Stripe, StripeCardNumberElement } from "@stripe/stripe-js";
+import { api, type CreateOrderDto } from "../api/client";
+import { cardFieldsMarkup, chargeCard, getStripe, mountCardFields } from "../components/card-payment";
 import { isEmail, joinMailingList, newsletterEnabled } from "../components/forms";
 import { icon } from "../components/icons";
+import { config } from "../config";
 import { band, currencyOf, type BandState } from "../data/band";
 import { cart, requiresShipping, subtotalCents, unitCents, variationsLabel, type CartItem } from "../data/cart";
 import { countries, countryName } from "../data/countries";
@@ -12,7 +14,6 @@ import { track } from "../lib/analytics";
 import { html, qs, qsa, render, type SafeHtml } from "../lib/dom";
 import { money, moneyText } from "../lib/format";
 import { lockNavigation } from "../site/router";
-import { highlightColour } from "../site/theme";
 import { renderIfChanged, type PageInit } from "./page";
 
 type Step = "details" | "payment" | "done";
@@ -25,28 +26,7 @@ interface Receipt {
   currency: string;
 }
 
-const cardStyle = (): StripeElementStyle => ({
-  base: {
-    color: "#ffffff",
-    fontFamily: "Inter, sans-serif",
-    fontSize: "16px",
-    iconColor: highlightColour(),
-    "::placeholder": { color: "#777777" },
-  },
-  invalid: { color: "#ff6b6b", iconColor: "#ff6b6b" },
-});
-
-const CONTACT_EMAIL = "quiversmusic@gmail.com";
-
-let stripePromise: Promise<Stripe | null> | null = null;
-let stripeKey = "";
-const getStripe = (key: string): Promise<Stripe | null> => {
-  if (!stripePromise || key !== stripeKey) {
-    stripeKey = key;
-    stripePromise = loadStripe(key);
-  }
-  return stripePromise;
-};
+const CONTACT_EMAIL = config.contactEmail;
 
 const field = (
   name: keyof CustomerDetails,
@@ -123,14 +103,7 @@ const paymentMarkup = (customer: CustomerDetails, shipping: boolean, total: Safe
       </div>
       <button type="button" class="link-button" data-back>Edit</button>
     </div>
-    <div class="field">
-      <label for="card-number">Card number</label>
-      <div class="stripe-field" id="card-number"></div>
-    </div>
-    <div class="field-row">
-      <div class="field"><label for="card-expiry">Expiry</label><div class="stripe-field" id="card-expiry"></div></div>
-      <div class="field"><label for="card-cvc">CVC</label><div class="stripe-field" id="card-cvc"></div></div>
-    </div>
+    ${cardFieldsMarkup()}
     <p class="form-error" role="alert" hidden></p>
     <p class="alert alert-info">${icon("lock")} Payments are processed securely by Stripe. Please keep this page open until your payment is complete.</p>
     <div class="checkout-actions">
@@ -345,20 +318,7 @@ export const checkout: PageInit = ({ main, cleanup }) => {
     }
     if (step !== "payment") return;
     if (!stripe) return setError("The payment form couldn't load. Check your connection and try again.");
-    const elements = stripe.elements({
-      fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" }],
-    });
-    const options = { style: cardStyle() };
-    card = elements.create("cardNumber", { ...options, showIcon: true });
-    const expiry = elements.create("cardExpiry", options);
-    const cvc = elements.create("cardCvc", options);
-    card.mount("#card-number");
-    expiry.mount("#card-expiry");
-    cvc.mount("#card-cvc");
-    const showCardError = (event: { error?: { message?: string } }) => setError(event.error?.message ?? "");
-    card.on("change", showCardError);
-    expiry.on("change", showCardError);
-    cvc.on("change", showCardError);
+    card = mountCardFields(stripe, setError);
     const pay = qs<HTMLButtonElement>("[data-pay]", panel);
     if (pay) pay.disabled = false;
   };
@@ -399,36 +359,9 @@ export const checkout: PageInit = ({ main, cleanup }) => {
     });
     if (error || !paymentMethod) return fail(error?.message ?? "Please try again.");
 
-    let paymentIntentId = "";
-    try {
-      let result = (
-        await api.paymentsControllerCreate({
-          PaymentMethodId: paymentMethod.id,
-          PaymentIntentId: "",
-          AmountCents: total,
-          UserId: userId,
-          Currency: "",
-        })
-      ).data;
-      // The card needs another step, such as 3-D Secure.
-      if (!result.Success && result.RequiresAction) {
-        const action = await stripe.handleCardAction(result.ClientSecret);
-        if (action.error || !action.paymentIntent) return fail(action.error?.message ?? "Please try again.");
-        result = (
-          await api.paymentsControllerCreate({
-            PaymentMethodId: "",
-            PaymentIntentId: action.paymentIntent.id,
-            AmountCents: total,
-            UserId: userId,
-            Currency: "",
-          })
-        ).data;
-      }
-      if (!result.Success) return fail(result.Message || "Please try again.");
-      paymentIntentId = result.PaymentIntentId;
-    } catch (err) {
-      return fail(errorMessage(err));
-    }
+    const charge = await chargeCard(stripe, { paymentMethodId: paymentMethod.id, amountCents: total, userId, currency: "" });
+    if (!charge.ok) return fail(charge.message);
+    const { paymentIntentId } = charge;
 
     // Paid. Record the order; shipping is charged once, on the item that costs most to post.
     const shippingItem = items.reduce<{ id: string; cents: number }>((best, item) => {

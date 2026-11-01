@@ -2627,6 +2627,44 @@ body[data-page="checkout"] main {
   background: #0a0a0a;
 }
 
+/* Payment link (order.html) */
+.payment-link {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.payment-note {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem;
+  border-left: 3px solid var(--highlight);
+  border-radius: 0 12px 12px 0;
+  background: rgba(var(--highlight-rgb), 0.06);
+  font-size: 0.85rem;
+}
+
+.payment-note-text {
+  font-size: 1rem;
+  color: #ffffff;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.payment-tip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.tip-options {
+  display: flex;
+  gap: 0.5rem;
+}
+
 /* Music page */
 .music-tracks {
   padding: 60px 0 80px;

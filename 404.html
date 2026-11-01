@@ -1,7 +1,11 @@
 <html>
   <head>
     <script type="text/javascript">
-      window.location.href =  "/index.html"
+      // Payment links used to be /order/<id>; they're now order.html?id=<id>.
+      var paymentLink = window.location.pathname.match(/^\/order\/([A-Za-z0-9-]+)\/?$/);
+      window.location.replace(
+        paymentLink ? "/order.html?id=" + paymentLink[1] : "/index.html"
+      );
     </script>
   </head>
   <body>

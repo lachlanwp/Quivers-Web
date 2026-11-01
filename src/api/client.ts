@@ -14,9 +14,11 @@ export const api = getMusicPoweredAPI(http);
 export type {
   About,
   BandMember,
+  CompleteCustomOrder,
   ContactDetail,
   CreateOrderDto,
   FooterLink,
+  GetCustomOrder,
   Merch,
   MerchVariation,
   Playlist,

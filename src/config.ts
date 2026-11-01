@@ -8,6 +8,8 @@ export const config = {
   // shipping costs from the customer's address.
   googleMapsApiKey: __GOOGLE_MAPS_API_KEY__,
   bandcampMerchUrl: "https://quiversss.bandcamp.com/merch",
+  // Shown when a payment goes through but can't be recorded.
+  contactEmail: "quiversmusic@gmail.com",
   // Photos and audio uploaded through MusicPowered are in the S3 bucket
   // "cdn2.musicpowered.net", but the musicpowered.net domain has lapsed, so
   // load them from the bucket's own S3 address. Remove the entry once the

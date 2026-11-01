@@ -10,9 +10,11 @@ import { fileURLToPath } from "node:url";
 import type {
   About,
   BandMember,
+  CompleteCustomOrder,
   ContactDetail,
   CreateOrderDto,
   FooterLink,
+  GetCustomOrder,
   Merch,
   MerchVariation,
   MusicPoweredPaymentResponse,
@@ -263,6 +265,36 @@ const merch: Merch[] = [
   },
 ];
 
+// Payment links (order.html?id=…), as made in the admin. Paying one marks it
+// paid, after which the API no longer returns it; restart the dev server to
+// reset them.
+const customOrder = (id: string, cents: number, note: string, user_id = USER_ID): GetCustomOrder => ({
+  id,
+  admin_note: "",
+  customer_note: note,
+  order_total_cents: cents,
+  extra_tip_cents: 0,
+  created_on: "2026-11-01T00:00:00.000Z",
+  is_deleted: false,
+  deleted_on: "",
+  completed: false,
+  completed_at: "",
+  user_id,
+  refunded: false,
+  refunded_at: "",
+  stripe_payment_intent_id: "",
+  card_last_four: "",
+  card_brand: "",
+  currency_code: "AUD",
+});
+const customOrders = new Map(
+  [
+    customOrder("sample-payment", 4500, "Thanks for coming to the show! This is for the LP and the tote bag."),
+    customOrder("sample-no-note", 2000, ""),
+    customOrder("other-band", 1000, "Belongs to another band, so this site won't take it.", "mock-other-band"),
+  ].map((order) => [order.id, order]),
+);
+
 // A short synthesised jangle, so the music player has something to play.
 const audioCache = new Map<number, Buffer>();
 const synthesise = (seed: number, seconds = 24): Buffer => {
@@ -363,6 +395,22 @@ export const handleMockApi = async (
   if (get && route === `/band-member/user/${USER_ID}`) return json(res, 200, members);
   if (get && route === `/footer-links/user/${USER_ID}`) return json(res, 200, footerLinks);
   if (get && route === `/contact-details/user/${USER_ID}`) return json(res, 200, contactDetail);
+  if (get && route.startsWith("/custom-orders/")) {
+    const order = customOrders.get(decodeURIComponent(route.slice("/custom-orders/".length)));
+    if (order && !order.completed) return json(res, 200, order);
+    // Like the API: an empty answer when there's no unpaid order with that ID.
+    res.writeHead(200, { "cache-control": "no-store" });
+    return void res.end();
+  }
+
+  if (method === "PUT" && route === "/custom-orders/complete") {
+    const body = (await readBody(req)) as CompleteCustomOrder;
+    const order = customOrders.get(body.id);
+    if (!order) return json(res, 500, { message: "No such custom order" });
+    Object.assign(order, body, { completed: true, completed_at: new Date().toISOString() });
+    console.log(`[mock-api] payment link ${order.id} paid: ${order.order_total_cents} + ${order.extra_tip_cents} tip cents`);
+    return json(res, 200, order);
+  }
 
   if (method === "POST") {
     const body = (await readBody(req)) as Record<string, unknown>;
@@ -387,6 +435,7 @@ export const handleMockApi = async (
         return json(res, 201, { id });
       }
       case "/notifications/order":
+      case "/notifications/custom_order":
         return json(res, 201, { Success: true, Message: "Sent", StatusCode: 200 });
       case "/order/verify":
         return json(res, 201, { Success: true, Message: "Verified", StatusCode: 200 });
