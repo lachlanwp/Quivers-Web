@@ -35,7 +35,7 @@ interface Saved {
 }
 
 const SAVE_KEY = "quivers.player.v1";
-const FALLBACK_COVER = "images/quivers-logo-white.86jnz7.png";
+const FALLBACK_COVER = "images/quivers-logo-white.6adnxx.png";
 
 const saved = readJson<Saved>("session", SAVE_KEY);
 const store = createStore<PlayerState>({

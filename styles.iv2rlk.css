@@ -127,19 +127,19 @@ body::before {
 /* Hand-drawn Australian plants: each page's <body> class picks one. When the
    API has a background for the page, src/site/theme.ts shows that instead. */
 body.wattle {
-  --page-background: url("images/wattle.g1x4sg.png");
+  --page-background: url("images/wattle.ksaz5g.png");
 }
 
 body.eucalyptus {
-  --page-background: url("images/eucalyptus.r52kut.png");
+  --page-background: url("images/eucalyptus.kf2rsp.png");
 }
 
 body.kangaroo-paw {
-  --page-background: url("images/kangaroo-paw.rkrwe4.png");
+  --page-background: url("images/kangaroo-paw.4bxn3p.png");
 }
 
 body.bottlebrush {
-  --page-background: url("images/bottlebrush.78pgga.png");
+  --page-background: url("images/bottlebrush.g5zqqh.png");
 }
 
 .container {
