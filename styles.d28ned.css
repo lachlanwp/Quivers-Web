@@ -127,19 +127,19 @@ body::before {
 /* Hand-drawn Australian plants: each page's <body> class picks one. When the
    API has a background for the page, src/site/theme.ts shows that instead. */
 body.wattle {
-  --page-background: url("images/wattle.ksaz5g.png");
+  --page-background: url("images/wattle.h67otj.png");
 }
 
 body.eucalyptus {
-  --page-background: url("images/eucalyptus.kf2rsp.png");
+  --page-background: url("images/eucalyptus.3k4thw.png");
 }
 
 body.kangaroo-paw {
-  --page-background: url("images/kangaroo-paw.4bxn3p.png");
+  --page-background: url("images/kangaroo-paw.5wf3wb.png");
 }
 
 body.bottlebrush {
-  --page-background: url("images/bottlebrush.g5zqqh.png");
+  --page-background: url("images/bottlebrush.7jssud.png");
 }
 
 .container {
@@ -168,6 +168,13 @@ body.bottlebrush {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* The band's logo (nav, hero, footer) is always white, whatever colour the
+   uploaded image is: every visible pixel goes black, then flips to white.
+   Transparent areas stay transparent. */
+img[data-band-image="main_logo"] {
+  filter: brightness(0) invert(1);
 }
 
 .nav-logo .logo {

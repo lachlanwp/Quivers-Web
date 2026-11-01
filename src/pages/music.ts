@@ -6,7 +6,7 @@ import { player } from "../player/player";
 import { observeFadeIns } from "../site/effects";
 import { renderIfChanged, type PageInit } from "./page";
 
-const FALLBACK_COVER = "images/quivers-logo-white.6adnxx.png";
+const FALLBACK_COVER = "images/quivers-logo-white.vrahi4.png";
 
 export const music: PageInit = ({ main, cleanup }) => {
   // The band's music services replace the page's own "Stream & Buy" cards.
