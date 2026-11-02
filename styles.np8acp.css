@@ -127,19 +127,19 @@ body::before {
 /* Hand-drawn Australian plants: each page's <body> class picks one. When the
    API has a background for the page, src/site/theme.ts shows that instead. */
 body.wattle {
-  --page-background: url("images/wattle.h67otj.png");
+  --page-background: url("images/wattle.1ohpif.png");
 }
 
 body.eucalyptus {
-  --page-background: url("images/eucalyptus.3k4thw.png");
+  --page-background: url("images/eucalyptus.dotcxy.png");
 }
 
 body.kangaroo-paw {
-  --page-background: url("images/kangaroo-paw.5wf3wb.png");
+  --page-background: url("images/kangaroo-paw.k3szum.png");
 }
 
 body.bottlebrush {
-  --page-background: url("images/bottlebrush.7jssud.png");
+  --page-background: url("images/bottlebrush.7qci15.png");
 }
 
 .container {
@@ -333,9 +333,9 @@ img[data-band-image="main_logo"] {
 
 /* Home hero: intro, the next few shows and the band photo, laid out so a
    visitor sees at least two or three ticket links without scrolling.
-   - 1024px and wider: two columns filling the first screen. Intro and band
-     photo on the left (the photo takes the height left over), shows on the
-     right, centred against them.
+   - 1024px and wider: the logo and tagline across the top, then the band
+     photo and the shows side by side, the same height (the photo follows
+     the shows panel).
    - Narrower: one column, with the shows straight after the tagline and the
      photo after them. */
 .hero-grid {
@@ -404,22 +404,13 @@ img[data-band-image="main_logo"] {
   }
 
   .hero-grid {
-    /* The first screen less the nav bar (in the top padding), the bottom
-       padding and the music player, within reason on very short or very
-       tall windows */
-    --hero-height: clamp(
-      520px,
-      calc(100svh - var(--player-space, 0px) - 160px),
-      640px
-    );
-    min-height: var(--hero-height);
     grid-template-columns: minmax(0, 1.1fr) minmax(360px, 1fr);
-    grid-template-rows: auto minmax(160px, 1fr);
+    grid-template-rows: auto minmax(320px, auto);
     grid-template-areas:
-      "intro shows"
+      "intro intro"
       "photo shows";
     column-gap: clamp(32px, 4vw, 64px);
-    row-gap: 28px;
+    row-gap: 24px;
     justify-items: stretch;
     text-align: left;
   }
@@ -438,11 +429,11 @@ img[data-band-image="main_logo"] {
     object-position: left center;
   }
 
-  /* A long tour list scrolls inside the panel instead of stretching the photo */
+  /* Fits the next 5 shows and "Show all dates"; once that's pressed, the
+     rest scroll inside the panel instead of stretching the photo */
   .hero .tour-panel {
     max-width: none;
-    align-self: center;
-    max-height: var(--hero-height);
+    max-height: 600px;
     overflow-y: auto;
   }
 
@@ -456,14 +447,6 @@ img[data-band-image="main_logo"] {
     height: 100%;
     aspect-ratio: auto;
     object-position: center 30%;
-  }
-}
-
-/* Narrower two-column screens (landscape tablets, small laptops): keep the
-   tagline to one line */
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .hero .hero-subtitle {
-    font-size: 1.25rem;
   }
 }
 
@@ -3253,8 +3236,6 @@ body[data-page="checkout"] main {
 /* Music player (src/player/player.ts) */
 body.has-player {
   padding-bottom: var(--player-height);
-  /* Read by layouts that fill the screen above the player (home hero) */
-  --player-space: var(--player-height);
 }
 
 .player {
