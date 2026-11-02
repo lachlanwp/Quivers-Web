@@ -111,76 +111,81 @@
     </header>
 
     <main>
+      <!--
+        The first screen: the next few shows with their ticket links sit next
+        to the intro on wide screens, and straight under the tagline on narrow
+        ones, so a visitor sees at least a couple of ticket links without
+        scrolling. Layout is in the "Home hero" part of the stylesheet.
+      -->
       <section class="hero">
-        <div class="hero-content">
-          <h1 class="hero-title">
-            <img
-              src="images/quivers-logo-white.vrahi4.png"
-              alt="Quivers"
-              class="hero-logo"
-              data-band-image="main_logo"
-              width="485"
-              height="150"
-            />
-          </h1>
-          <p class="hero-subtitle hero-subtitle-home">
-            Cathartic jangle pop from Melbourne, Australia
-          </p>
-          <div class="hero-buttons">
-            <a href="about.html" class="btn btn-primary">Learn More</a>
-            <a href="contact.html" class="btn btn-secondary">Contact Quivers</a>
-            <button type="button" class="btn btn-outline btn-icon" data-listen hidden>
-              Listen
-            </button>
+        <div class="hero-grid">
+          <div class="hero-content">
+            <h1 class="hero-title">
+              <img
+                src="images/quivers-logo-white.vrahi4.png"
+                alt="Quivers"
+                class="hero-logo"
+                data-band-image="main_logo"
+                width="485"
+                height="150"
+              />
+            </h1>
+            <p class="hero-subtitle hero-subtitle-home">
+              Cathartic jangle pop from Melbourne, Australia
+            </p>
           </div>
-        </div>
-        <div class="hero-image">
-          <img
-            src="images/band-photo.7em9o4.jpg"
-            alt="Quivers Band"
-            class="band-photo"
-            data-band-image="band_photo_url"
-          />
-        </div>
-      </section>
 
-      <section class="upcoming-shows" id="shows">
-        <div class="container">
-          <h2>Upcoming Shows</h2>
-          <div class="shows-widget">
-            <!--
-              Bandsintown Events Widget (V3). Shows are managed in
-              Bandsintown for Artists; this list updates automatically.
-              The fallback link below shows until the widget loads.
-              src/site/bandsintown.ts loads it, in the band's highlight colour.
-              Keep these settings in sync with about.html.
-            -->
-            <a
-              class="bit-widget-initializer"
-              href="https://www.bandsintown.com/a/768076-quivers"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-artist-name="id_768076"
-              data-app-id="js_quiversmusic.com"
-              data-layout-style="cards"
-              data-auto-style="false"
-              data-font="Inter"
-              data-font-size="16px"
-              data-text-color="#FFFFFF"
-              data-date-color="#02BACD"
-              data-background-color="rgba(0,0,0,0)"
-              data-separator-color="rgba(255,255,255,0.15)"
-              data-link-color="#02BACD"
-              data-link-text-color="#FFFFFF"
-              data-display-local-dates="false"
-              data-display-past-dates="false"
-              data-display-lineup="true"
-              data-event-ticket-cta-bg-color="#02BACD"
-              data-event-ticket-cta-text-color="#FFFFFF"
-              data-event-ticket-cta-border-color="#02BACD"
-              data-event-ticket-cta-border-radius="25px"
-              >See all Quivers tour dates on Bandsintown</a
-            >
+          <section class="tour-panel" id="shows" aria-labelledby="shows-title">
+            <h2 class="tour-panel-title" id="shows-title">Touring</h2>
+            <div class="shows-widget">
+              <!--
+                Bandsintown Events Widget (V3). Shows are managed in
+                Bandsintown for Artists; this list updates automatically.
+                The fallback link below shows until the widget loads.
+                src/site/bandsintown.ts loads it, in the band's highlight colour.
+                Keep these settings in sync with about.html, except
+                data-display-limit: the home page lists the next 5 shows and
+                the widget adds a button for the rest.
+              -->
+              <a
+                class="bit-widget-initializer"
+                href="https://www.bandsintown.com/a/768076-quivers"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-artist-name="id_768076"
+                data-app-id="js_quiversmusic.com"
+                data-layout-style="cards"
+                data-auto-style="false"
+                data-font="Inter"
+                data-font-size="16px"
+                data-text-color="#FFFFFF"
+                data-date-color="#02BACD"
+                data-background-color="rgba(0,0,0,0)"
+                data-separator-color="rgba(255,255,255,0.15)"
+                data-link-color="#02BACD"
+                data-link-text-color="#FFFFFF"
+                data-display-local-dates="false"
+                data-display-past-dates="false"
+                data-display-lineup="true"
+                data-display-limit="5"
+                data-event-ticket-cta-bg-color="#02BACD"
+                data-event-ticket-cta-text-color="#FFFFFF"
+                data-event-ticket-cta-border-color="#02BACD"
+                data-event-ticket-cta-border-radius="25px"
+                >Tour dates and tickets on Bandsintown</a
+              >
+            </div>
+          </section>
+
+          <div class="hero-image">
+            <img
+              src="images/band-photo.7em9o4.jpg"
+              alt="Quivers Band"
+              class="band-photo"
+              data-band-image="band_photo_url"
+              width="1600"
+              height="1061"
+            />
           </div>
         </div>
       </section>

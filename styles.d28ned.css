@@ -244,12 +244,10 @@ img[data-band-image="main_logo"] {
   transition: 0.3s;
 }
 
-/* Hero Section */
+/* Hero Section (home page; layout under "Home hero" below) */
 .hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 120px 20px 60px;
+  /* Top padding clears the fixed nav bar */
+  padding: 112px 20px 48px;
   background: linear-gradient(
     135deg,
     rgba(10, 10, 10, 0.8) 0%,
@@ -297,18 +295,6 @@ img[data-band-image="main_logo"] {
   position: relative;
 }
 
-.hero-title {
-  margin-bottom: 1.5rem;
-  line-height: 0;
-}
-
-.hero-logo {
-  display: block;
-  width: 100%;
-  max-width: 520px;
-  height: auto;
-}
-
 .hero-subtitle {
   font-size: 1.5rem;
   color: #cccccc;
@@ -318,18 +304,8 @@ img[data-band-image="main_logo"] {
   letter-spacing: 0.5px;
 }
 
-.hero-subtitle-home {
-  text-align: left;
-}
-
 .hero-subtitle-contact {
   text-align: center;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
 }
 
 .hero-image {
@@ -353,6 +329,142 @@ img[data-band-image="main_logo"] {
 
 .band-photo:hover {
   transform: scale(1.02);
+}
+
+/* Home hero: intro, the next few shows and the band photo, laid out so a
+   visitor sees at least two or three ticket links without scrolling.
+   - 1024px and wider: two columns filling the first screen. Intro and band
+     photo on the left (the photo takes the height left over), shows on the
+     right, centred against them.
+   - Narrower: one column, with the shows straight after the tagline and the
+     photo after them. */
+.hero-grid {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "intro"
+    "shows"
+    "photo";
+  gap: 24px;
+  justify-items: center;
+  text-align: center;
+}
+
+.hero .hero-content {
+  grid-area: intro;
+}
+
+.hero-title {
+  margin-bottom: 1.25rem;
+  line-height: 0;
+}
+
+.hero-logo {
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.hero .hero-subtitle {
+  margin: 0;
+  text-wrap: balance;
+}
+
+.hero .tour-panel {
+  grid-area: shows;
+  width: 100%;
+  max-width: 640px;
+}
+
+.hero .hero-image {
+  grid-area: photo;
+  width: 100%;
+  max-width: 640px;
+}
+
+.hero .band-photo {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding: 112px 32px 48px;
+  }
+
+  .hero-grid {
+    /* The first screen less the nav bar (in the top padding), the bottom
+       padding and the music player, within reason on very short or very
+       tall windows */
+    --hero-height: clamp(
+      520px,
+      calc(100svh - var(--player-space, 0px) - 160px),
+      640px
+    );
+    min-height: var(--hero-height);
+    grid-template-columns: minmax(0, 1.1fr) minmax(360px, 1fr);
+    grid-template-rows: auto minmax(160px, 1fr);
+    grid-template-areas:
+      "intro shows"
+      "photo shows";
+    column-gap: clamp(32px, 4vw, 64px);
+    row-gap: 28px;
+    justify-items: stretch;
+    text-align: left;
+  }
+
+  .hero .hero-content {
+    max-width: none;
+  }
+
+  /* Sized by the window's height, so short screens keep room for the photo */
+  .hero-logo {
+    width: auto;
+    height: clamp(84px, 15svh, 136px);
+    max-width: 100%;
+    margin: 0;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  /* A long tour list scrolls inside the panel instead of stretching the photo */
+  .hero .tour-panel {
+    max-width: none;
+    align-self: center;
+    max-height: var(--hero-height);
+    overflow-y: auto;
+  }
+
+  .hero .hero-image {
+    max-width: none;
+  }
+
+  .hero .band-photo {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    aspect-ratio: auto;
+    object-position: center 30%;
+  }
+}
+
+/* Narrower two-column screens (landscape tablets, small laptops): keep the
+   tagline to one line */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .hero .hero-subtitle {
+    font-size: 1.25rem;
+  }
 }
 
 /* Lightbox */
@@ -567,11 +679,11 @@ img[data-band-image="main_logo"] {
 
 /* Hide widget extras (Follow, RSVP, Play My City, Bandsintown logo);
    the widget's own settings for these don't take effect */
-.upcoming-shows .shows-widget .bit-follow-section-wrapper,
-.upcoming-shows .shows-widget .bit-rsvp-container,
-.upcoming-shows .shows-widget .bit-play-my-city-wrapper,
-.upcoming-shows .shows-widget .bit-logo-container,
-.upcoming-shows .shows-widget .bit-widget > div:has(> .bit-logo-link) {
+.shows-widget .bit-widget .bit-follow-section-wrapper,
+.shows-widget .bit-widget .bit-rsvp-container,
+.shows-widget .bit-widget .bit-play-my-city-wrapper,
+.shows-widget .bit-widget .bit-logo-container,
+.shows-widget .bit-widget > div:has(> .bit-logo-link) {
   display: none;
 }
 
@@ -579,6 +691,204 @@ img[data-band-image="main_logo"] {
 .upcoming-shows .shows-widget .bit-layout-desktop .bit-event-buttons {
   grid-template-columns: auto;
   justify-content: end;
+}
+
+/* Home page shows panel. The Bandsintown widget is redrawn as a compact
+   list (date, place, Tickets) so several shows fit on the first screen.
+   The widget's own styles are injected after this stylesheet, hence the
+   long selectors, and the one !important answering one of the widget's. */
+.tour-panel {
+  text-align: left;
+  padding: 20px 20px 10px;
+  background: rgba(10, 10, 10, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.tour-panel-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+/* Until the widget loads (or if it can't), its link to Bandsintown shows
+   as a button, in a box about the size of a few shows so nothing jumps */
+.tour-panel .shows-widget:has(> .bit-widget-initializer) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+}
+
+.tour-panel .shows-widget .bit-widget-initializer {
+  display: inline-block;
+  padding: 10px 22px;
+  border: 2px solid var(--highlight);
+  border-radius: 25px;
+  color: #ffffff;
+  font-weight: 600;
+  text-align: center;
+}
+
+.tour-panel .shows-widget .bit-nav-bar-container {
+  display: none;
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-upcoming-events {
+  gap: 0;
+  margin: 0;
+  border-bottom: 0;
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-event.bit-card {
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 14px;
+  margin: 0 -8px;
+  padding: 12px 8px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  line-height: 1.35;
+}
+
+/* Hairline between shows, drawn inside the hover highlight's rounding */
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-event.bit-card + .bit-event.bit-card {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0 0 12px 12px;
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-card-date .bit-vertical-date {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  min-width: 50px;
+  padding: 6px 0;
+  border: 1px solid rgba(var(--highlight-rgb), 0.35);
+  border-radius: 10px;
+  background: rgba(var(--highlight-rgb), 0.1);
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-card-date .bit-vertical-date-subsection {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--highlight);
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-card-date .bit-vertical-date-numeric-date {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-card-info {
+  gap: 1px;
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-card-city {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Venue and support acts stay on one line each */
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-card-secondary,
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-event .bit-lineUp-container {
+  display: block;
+  max-width: none;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-card-secondary {
+  font-size: 0.88rem;
+  color: #bbbbbb;
+  opacity: 1;
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-event .bit-lineUp-container,
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-event .bit-lineUp {
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-event-buttons {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  width: auto;
+  margin: 0 0 0 auto;
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-event .bit-offers-container {
+  flex-basis: auto;
+  width: auto;
+  margin: 0;
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-event .bit-offers {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* The widget fixes the button at 128px with !important */
+  width: auto !important;
+  min-width: 0;
+  min-height: 40px;
+  margin: 0;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 25px;
+  background: var(--highlight);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-event .bit-offers:hover,
+.tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-event .bit-offers:focus-visible {
+  opacity: 1;
+  background: var(--gradient);
+  box-shadow: 0 8px 18px rgba(var(--highlight-rgb), 0.3);
+  transform: translateY(-1px);
+}
+
+/* "Show all dates", when there are more than data-display-limit */
+.tour-panel .shows-widget .bit-widget .bit-upcoming-events-show-all-button {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin: 4px 0 6px;
+  padding: 12px;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0;
+  background: transparent;
+  color: var(--highlight);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.tour-panel .shows-widget .bit-widget .bit-upcoming-events-show-all-button:hover {
+  color: #ffffff;
+}
+
+.tour-panel .shows-widget .bit-widget .bit-no-dates-container {
+  margin: 0;
+  padding: 24px 0 18px;
+  border-top: 0;
 }
 
 /* Album Cover Styling */
@@ -1038,15 +1348,16 @@ footer {
   }
 
   .hero {
-    flex-direction: column;
-    text-align: center;
-    gap: 2.5rem;
-    /* Top padding clears the ~73px fixed nav bar plus breathing room */
-    padding: 120px 20px 56px;
-    min-height: auto;
+    /* Top padding clears the ~73px fixed nav bar */
+    padding: 92px 16px 40px;
   }
 
-  /* Logo is already in the nav bar on mobile; keep the h1 for screen readers */
+  .hero-grid {
+    gap: 20px;
+  }
+
+  /* Logo is already in the nav bar on mobile, so the tagline leads.
+     Hidden but kept for screen readers. */
   .hero-title {
     position: absolute;
     width: 1px;
@@ -1061,13 +1372,8 @@ footer {
     font-size: 1.2rem;
   }
 
-  /* With the hero logo hidden, the tagline is the intro text */
   .hero-subtitle-home {
-    text-align: center;
-    font-size: 1.4rem;
     line-height: 1.4;
-    margin-bottom: 2rem;
-    text-wrap: balance;
   }
 
   .band-photo {
@@ -1075,8 +1381,13 @@ footer {
     margin: 0 auto;
   }
 
-  .hero-buttons {
-    justify-content: center;
+  .tour-panel {
+    padding: 16px 14px 6px;
+    border-radius: 16px;
+  }
+
+  .tour-panel-title {
+    font-size: 1.15rem;
   }
 
   .release-info h3 {
@@ -1154,19 +1465,26 @@ footer {
   }
 
   .hero-subtitle-home {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
 
-  /* Buttons stack here, so give them a matching width */
-  .hero-buttons {
-    flex-direction: column;
-    align-items: center;
+  /* Rows tighten up so the place keeps as much width as it can */
+  .tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-event.bit-card {
+    gap: 10px;
   }
 
-  .hero-buttons .btn {
-    width: 100%;
-    max-width: 240px;
-    text-align: center;
+  .tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-card-date .bit-vertical-date {
+    width: 44px;
+    min-width: 44px;
+  }
+
+  .tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-card-city {
+    font-size: 0.95rem;
+  }
+
+  .tour-panel .shows-widget .bit-widget.bit-layout-style-cards .bit-event .bit-offers {
+    padding: 10px 14px;
+    font-size: 0.75rem;
   }
 
   .btn {
@@ -1340,11 +1658,6 @@ footer {
 .btn-block {
   display: flex;
   width: 100%;
-}
-
-.btn-icon .icon {
-  width: 1.1em;
-  height: 1.1em;
 }
 
 .link-button {
@@ -2940,6 +3253,8 @@ body[data-page="checkout"] main {
 /* Music player (src/player/player.ts) */
 body.has-player {
   padding-bottom: var(--player-height);
+  /* Read by layouts that fill the screen above the player (home hero) */
+  --player-space: var(--player-height);
 }
 
 .player {

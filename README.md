@@ -23,7 +23,7 @@ Their latest album **"Oyster Cuts"** was released worldwide via Merge Records on
 
 | Page | What's on it |
 | --- | --- |
-| `index.html` | Hero, upcoming shows, press quotes, featured merch, "Listen" button |
+| `index.html` | Hero with the next few shows and ticket links, press quotes, featured merch |
 | `about.html` | Bio, band members, quotes, shows |
 | `music.html` | Playlist (plays in the site player), streaming and store links |
 | `merch.html` | All products |
